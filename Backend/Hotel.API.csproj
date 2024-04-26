@@ -12,4 +12,8 @@
     <PackageReference Include="DotSwashbuckle.AspNetCore" Version="3.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.DataAccess.Postgres\Hotel.DataAccess.Postgres.csproj" />
+  </ItemGroup>
+
 </Project>

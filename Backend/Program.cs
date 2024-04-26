@@ -1,7 +1,12 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Hotel.DataAccess.Postgres;
+using Hotel.DataAccess.Postgres.Configurations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
+
+HotelDbContext hotelDbContext = new(new DbContextOptions<HotelDbContext>());
 var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Services.ConfigureHttpJsonOptions(options =>
