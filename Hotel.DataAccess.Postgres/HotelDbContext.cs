@@ -16,23 +16,28 @@ namespace Hotel.DataAccess.Postgres
     {
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
-            
+            Database.EnsureCreated();
         }   
         public DbSet<HotelEntity> Hotels { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<GuestEntity> Guests { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseNpgsql("User ID=Glebx;Password=123;Host=localhost;Port=5432;Database=HotelDataBase;");
+            base.OnConfiguring(optionsBuilder);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {            
+            base.OnModelCreating(modelBuilder);            
             ApplyConfigurations(modelBuilder);
-            base.OnModelCreating(modelBuilder);
         }
         private void ApplyConfigurations(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new GuestConfiguration());
             modelBuilder.ApplyConfiguration(new HotelConfiguration());
-            modelBuilder.ApplyConfiguration(new RoomConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomConfiguration());         
         }
     }
 }
