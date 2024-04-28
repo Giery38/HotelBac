@@ -1,13 +1,15 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Hotel.Core.DataAccess;
 using Hotel.DataAccess.Postgres;
 using Hotel.DataAccess.Postgres.Configurations;
+using Hotel.DataAccess.Postgres.Repositories.Hotel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 public class Program
 {
     private static void Main(string[] args)
-    {
+    {       
         WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
         ConfigurationManager configuration = builder.Configuration;
 
@@ -20,7 +22,7 @@ public class Program
             {
                 options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
             });
-
+        builder.Services.AddScoped(typeof(HotelRepository));
         var app = builder.Build();
         if (app.Environment.IsDevelopment())
         {
@@ -29,7 +31,8 @@ public class Program
         }
         app.UseHttpsRedirection();
         app.UseAuthentication();
-        app.MapControllers();
-        app.Run();
+        app.MapControllers();     
+        
+        app.Run();        
     }
 }

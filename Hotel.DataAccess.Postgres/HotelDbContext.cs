@@ -9,22 +9,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hotel.Core.DataAccess;
 
 namespace Hotel.DataAccess.Postgres
 {
     public class HotelDbContext : DbContext
     {
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
-        {
+        {                   
             Database.EnsureCreated();
-        }   
+        }       
         public DbSet<HotelEntity> Hotels { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<GuestEntity> Guests { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseNpgsql("User ID=Glebx;Password=123;Host=localhost;Port=5432;Database=HotelDataBase;");
+        {         
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
