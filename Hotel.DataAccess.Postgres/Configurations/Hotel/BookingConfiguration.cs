@@ -1,4 +1,4 @@
-﻿using Hotel.DataAccess.Postgres.Models;
+﻿using Hotel.DataAccess.Postgres.Models.Users.Guests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

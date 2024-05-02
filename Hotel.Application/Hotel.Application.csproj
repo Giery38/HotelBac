@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.DataAccess.Postgres\Hotel.DataAccess.Postgres.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,10 @@
-﻿
+﻿using Hotel.Core.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace Hotel.DataAccess.Postgres.Models
 {
-    public class Entity 
-    {
-        [Required]
+    public abstract class Entity : IModel
+    {   
         [Key]
         public Guid Id { get; set; }
     }

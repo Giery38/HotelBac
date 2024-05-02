@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Hotel.DataAccess.Postgres.Models.Hotel;
+using Hotel.DataAccess.Postgres.Models.Users.Guests;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel.DataAccess.Postgres.Models
 {
@@ -11,7 +8,10 @@ namespace Hotel.DataAccess.Postgres.Models
     {
         public int Number { get; set; } = 0;
         public decimal Price { get; set; } = 0;
-        public string RoomType { get; set; } = string.Empty;
+        public Guid RoomTypeId { get; set; }
+
+        [ForeignKey(nameof(RoomTypeId))]
+        public RoomTypeEntity? RoomType { get; set; } 
         public string Description { get; set; } = string.Empty;
         public int Occupancy { get; set; } = 0;
         public List<string> Photos { get; set; } = [];

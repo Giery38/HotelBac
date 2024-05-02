@@ -1,6 +1,5 @@
 ﻿using Hotel.Core.DataAccess;
-using Hotel.Core.Repositories;
-using Hotel.DataAccess.Postgres.Models;
+using Hotel.DataAccess.Postgres.Models.Hotel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Hotel.DataAccess.Postgres.Repositories.Hotel
 {
-    public class HotelRepository : Repository<HotelEntity>
+    public class RoomTypeRepository : Repository<RoomTypeEntity>
     {
-        public HotelRepository(HotelDbContext dbContext) : base(dbContext)
+        public RoomTypeRepository(DbContext dbContext) : base(dbContext)
         {
-               
-        }        
+        }
     }
 }

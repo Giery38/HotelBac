@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hotel.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240427193529_initial")]
+    [Migration("20240429082337_initial")]
     partial class initial
     {
         /// <inheritdoc />

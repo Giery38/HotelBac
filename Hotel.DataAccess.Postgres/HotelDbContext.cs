@@ -1,16 +1,7 @@
 ﻿using Hotel.DataAccess.Postgres.Models;
 using Hotel.DataAccess.Postgres.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hotel.Core.DataAccess;
-
+using Hotel.DataAccess.Postgres.Models.Users.Guests;
 namespace Hotel.DataAccess.Postgres
 {
     public class HotelDbContext : DbContext
