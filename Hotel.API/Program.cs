@@ -1,18 +1,15 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using Hotel.Core.DataAccess;
-using Hotel.Core.Repositories;
-using Hotel.DataAccess.Postgres;
-using Hotel.DataAccess.Postgres.Configurations;
-using Hotel.DataAccess.Postgres.Models;
-using Hotel.DataAccess.Postgres.Repositories.Hotel;
+using Hotel.Data;
+using Hotel.Data.Configurations;
+using Hotel.Data.Models;
+using Hotel.Data.Models.Users.Guests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 public class Program
 {
     private static void Main(string[] args)
-    {      
-                
+    {                      
         WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
         ConfigurationManager configuration = builder.Configuration;         
         builder.Services.AddControllers();
@@ -22,8 +19,10 @@ public class Program
             options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
-            });
-        builder.Services.AddScoped<IRepository, HotelRepository>();
+            });     
+        builder.Services.AddScoped<IRepository, Repository<BookingEntity>>();
+       
+
         var app = builder.Build();
         if (app.Environment.IsDevelopment())
         {

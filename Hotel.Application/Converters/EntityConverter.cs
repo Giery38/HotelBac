@@ -2,10 +2,10 @@
 using Hotel.Core.Models.Hotel;
 using Hotel.Core.Models.Users.Admins;
 using Hotel.Core.Models.Users.Guests;
-using Hotel.DataAccess.Postgres.Models;
-using Hotel.DataAccess.Postgres.Models.Hotel;
-using Hotel.DataAccess.Postgres.Models.Users.Admins;
-using Hotel.DataAccess.Postgres.Models.Users.Guests;
+using Hotel.Data.Models;
+using Hotel.Data.Models.Hotel;
+using Hotel.Data.Models.Users.Admins;
+using Hotel.Data.Models.Users.Guests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Converters
 {
-    internal static class EntityConverter
+    public static class EntityConverter
     {
         #region HOTEL
         public static HotelModel ToModel(this HotelEntity entity)

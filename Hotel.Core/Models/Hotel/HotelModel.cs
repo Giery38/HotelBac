@@ -1,10 +1,10 @@
-﻿using Hotel.Core.Models.Base;
+﻿using Hotel.Core.Models.Common;
 using System.ComponentModel.DataAnnotations;
 
 
 namespace Hotel.Core.Models
 {
-    public class HotelModel : BaseModel
+    public class HotelModel : Model
     {
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;

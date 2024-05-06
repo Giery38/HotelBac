@@ -1,4 +1,4 @@
-﻿using Hotel.Core.Models.Base;
+﻿using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
 using Hotel.Core.Models.Users.Guests;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Core.Models
 {
-    public class RoomModel : BaseModel
+    public class RoomModel : Model
     {
         public int Number { get; set; } = 0;
         public decimal Price { get; private set; } = 0;

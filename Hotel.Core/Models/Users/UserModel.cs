@@ -1,8 +1,8 @@
-﻿using Hotel.Core.Models.Base;
+﻿using Hotel.Core.Models.Common;
 
 namespace Hotel.Core.Models.Users
 {
-    public abstract class UserModel : BaseModel
+    public abstract class UserModel : Model
     {
         public string Password { get; private set; } = string.Empty;
         public string Login { get; private set; } = string.Empty;

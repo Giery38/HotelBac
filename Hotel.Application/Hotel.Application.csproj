@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hotel.DataAccess.Postgres\Hotel.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\Hotel.Core\Hotel.Core.csproj" />
+    <ProjectReference Include="..\Hotel.Data\Hotel.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
