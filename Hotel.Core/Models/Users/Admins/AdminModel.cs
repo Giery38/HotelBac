@@ -8,7 +8,7 @@ namespace Hotel.Core.Models.Users.Admins
 {
     public class AdminModel : UserModel
     {
-        public AdminModel(string password, string login) : base(password, login)
+        public AdminModel(Guid id, string password, string login) : base(id, password, login)
         {
         }
     }

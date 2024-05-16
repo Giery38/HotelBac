@@ -29,7 +29,8 @@ namespace Hotel.Core.Models
             }
         }
         public List<string> Photos { get; private set; } = [];
-        public HotelModel(string name, string description, string address, string phone, int stars, List<string> photos)
+        public List<RoomModel> Rooms { get; private set; } = [];
+        public HotelModel(Guid id,string name, string description, string address, string phone, int stars, List<string> photos) : base(id)
         {
             Name = name;
             Description = description;

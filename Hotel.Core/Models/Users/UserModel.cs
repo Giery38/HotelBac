@@ -6,7 +6,7 @@ namespace Hotel.Core.Models.Users
     {
         public string Password { get; private set; } = string.Empty;
         public string Login { get; private set; } = string.Empty;
-        protected UserModel(string password, string login)
+        protected UserModel(Guid id, string password, string login) : base(id)
         {
             Password = password;
             Login = login;

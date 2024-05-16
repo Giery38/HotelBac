@@ -11,7 +11,7 @@ namespace Hotel.Core.Models.Hotel
     {
         public string Value { get; private set; } = string.Empty;
         public List<RoomModel> Rooms { get; private set; } = [];
-        public RoomTypeModel(string value, List<RoomModel> rooms)
+        public RoomTypeModel(Guid id, string value, List<RoomModel> rooms) : base(id)
         {
             Value = value;
             Rooms = rooms;

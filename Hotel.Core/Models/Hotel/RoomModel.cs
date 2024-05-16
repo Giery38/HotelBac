@@ -20,7 +20,7 @@ namespace Hotel.Core.Models
         public List<string> Photos { get; private set; } = [];
         public HotelModel Hotel { get; private set; }
         public List<BookingModel> Bookings { get; set; } = [];
-        public RoomModel(int number, decimal price, RoomTypeModel roomType, string description, int occupancy, List<string> photos, HotelModel hotel, List<BookingModel> bookings)
+        public RoomModel(Guid id, int number, decimal price, RoomTypeModel roomType, string description, int occupancy, List<string> photos, HotelModel hotel, List<BookingModel> bookings) : base(id)
         {
             Number = number;
             Price = price;

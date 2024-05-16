@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hotel.Data.Models
 {
-    public abstract class Entity : IModel
+    public class Entity : IModel
     {   
         [Key]
         public Guid Id { get; set; }

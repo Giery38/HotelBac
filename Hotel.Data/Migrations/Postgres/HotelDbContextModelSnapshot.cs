@@ -65,7 +65,7 @@ namespace Hotel.Data.Migrations.Postgres
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoomTypeEntity");
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("Hotel.Data.Models.HotelEntity", b =>
@@ -138,6 +138,25 @@ namespace Hotel.Data.Migrations.Postgres
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Hotel.Data.Models.Users.Admins.AdminEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("Hotel.Data.Models.Users.Guests.BookingEntity", b =>

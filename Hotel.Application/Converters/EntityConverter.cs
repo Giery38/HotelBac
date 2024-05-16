@@ -1,4 +1,5 @@
 ﻿using Hotel.Core.Models;
+using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
 using Hotel.Core.Models.Users.Admins;
 using Hotel.Core.Models.Users.Guests;
@@ -6,6 +7,7 @@ using Hotel.Data.Models;
 using Hotel.Data.Models.Hotel;
 using Hotel.Data.Models.Users.Admins;
 using Hotel.Data.Models.Users.Guests;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,33 +18,131 @@ namespace Hotel.Application.Converters
 {
     public static class EntityConverter
     {
+        #region ENTITY_TO_MODEL
+
+        public static Model ToModel(this Entity entity)
+        {
+            return new Model(entity.Id);
+        }
         #region HOTEL
         public static HotelModel ToModel(this HotelEntity entity)
         {
-            return new HotelModel(entity.Name, entity.Description, entity.Address, entity.Phone, entity.Stars, entity.Photos);   
+            return new HotelModel(entity.Id, entity.Name, entity.Description,
+                entity.Address, entity.Phone, entity.Stars, entity.Photos);
         }
         public static RoomModel ToModel(this RoomEntity entity)
         {
-            return new RoomModel(entity.Number, entity.Price, entity.RoomType.ToModel(), entity.Description, entity.Occupancy, entity.Photos, entity.Hotel.ToModel(), entity.Bookings.ConvertAll(i => i.ToModel()));
+            return new RoomModel(entity.Id, entity.Number, entity.Price, entity.RoomType.ToModel(),
+                entity.Description, entity.Occupancy, entity.Photos,
+                entity.Hotel.ToModel(), entity.Bookings.ConvertAll(i => i.ToModel()));
         }
         public static RoomTypeModel ToModel(this RoomTypeEntity entity)
         {
-            return new RoomTypeModel(entity.Value, entity.Rooms.ConvertAll(i => i.ToModel()));
+            return new RoomTypeModel(entity.Id, entity.Value, entity.Rooms.ConvertAll(i => i.ToModel()));
         }
         #endregion
         #region USER
         public static GuestModel ToModel(this GuestEntity entity)
         {
-            return new GuestModel(entity.Password, entity.Login, entity.Name, entity.Phone, DateOnly.Parse(entity.BirthDay), entity.PassportNumber, entity.Bookings.ConvertAll(i => i.ToModel()));
+            return new GuestModel(entity.Id, entity.Password, entity.Login,
+                entity.Name, entity.Phone, DateOnly.Parse(entity.BirthDay),
+                entity.PassportNumber, entity.Bookings.ConvertAll(i => i.ToModel()));
         }
         public static BookingModel ToModel(this BookingEntity entity)
         {
-            return new BookingModel(DateTime.Parse(entity.CheckIn), DateTime.Parse(entity.CheckOut), entity.Value, entity.Paid, entity.Rooms.ConvertAll(i => i.ToModel()), entity.Guests.ConvertAll(i => i.ToModel()));
+            return new BookingModel(entity.Id, DateTime.Parse(entity.CheckIn),
+                DateTime.Parse(entity.CheckOut), entity.Value, entity.Paid,
+                entity.Rooms.ConvertAll(i => i.ToModel()), entity.Guests.ConvertAll(i => i.ToModel()));
         }
         public static AdminModel ToModel(this AdminEntity entity)
         {
-            return new AdminModel(entity.Password, entity.Login);
-        } 
+            return new AdminModel(entity.Id, entity.Password, entity.Login);
+        }
+        #endregion
+        #endregion
+        #region MODEL_TO_ENTITY
+        public static Entity ToEntity(this Model model)
+        {
+            return new Entity() { Id = model.Id };
+        }
+        #region HOTEL
+        public static HotelEntity ToEntity(this HotelModel model)
+        {
+            return new HotelEntity()
+            {
+                Id = model.Id,
+                Address = model.Address,
+                Description = model.Description,
+                Name = model.Name,
+                Phone = model.Phone,
+                Photos = model.Photos,
+                Rooms = model.Rooms.ConvertAll(i => i.ToEntity()),
+                Stars = model.Stars
+            };
+
+        }
+        public static RoomEntity ToEntity(this RoomModel model)
+        {
+            return new RoomEntity()
+            {
+                Id = model.Id,
+                Bookings = model.Bookings.ConvertAll(i => i.ToEntity()),
+                Photos = model.Photos,
+                Description = model.Description,
+                Number = model.Number,
+                Occupancy = model.Occupancy,
+                Price = model.Price,
+                RoomType = model.RoomType.ToEntity(),
+                Hotel = model.Hotel.ToEntity(),
+                HotelId = model.Hotel.Id,
+                RoomTypeId = model.RoomType.Id
+            };
+        }
+        public static RoomTypeEntity ToEntity(this RoomTypeModel model)
+        {
+            return new RoomTypeEntity()
+            {
+                Id = model.Id,
+                Value = model.Value,
+                Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
+            };
+        }
+        #endregion
+        #region USER
+        public static GuestEntity ToEntity(this GuestModel model)
+        {
+            return new GuestEntity()
+            {
+                BirthDay = model.BirthDay.ToString(),
+                Email = model.Email,
+                Id = model.Id,
+                Login = model.Login,
+                Name = model.Name,
+                Phone = model.Phone,
+                Password = model.Password,
+                Bookings = model.Bookings.ConvertAll(i => i.ToEntity()),
+                PassportNumber = model.PassportNumber
+            };
+        }
+        public static BookingEntity ToEntity(this BookingModel model)
+        {
+            return new BookingEntity()
+            {
+                CheckIn = model.CheckIn.ToString(),
+                CheckOut = model.CheckOut.ToString(),
+                Id = model.Id,
+                Paid = model.Paid,
+                Value = model.Value,
+                Guests = model.Guests.ConvertAll(i => i.ToEntity()),
+                Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
+            };
+        }
+        public static AdminEntity ToEntity(this AdminModel model)
+        {
+            return new AdminEntity() { Id = model.Id, Login = model.Login, Password = model.Password };
+        }
+        #endregion
         #endregion
     }
 }
+    

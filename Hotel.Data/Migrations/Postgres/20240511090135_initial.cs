@@ -13,6 +13,19 @@ namespace Hotel.Data.Migrations.Postgres
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Login = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
@@ -63,7 +76,7 @@ namespace Hotel.Data.Migrations.Postgres
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoomTypeEntity",
+                name: "RoomTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -71,7 +84,7 @@ namespace Hotel.Data.Migrations.Postgres
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoomTypeEntity", x => x.Id);
+                    table.PrimaryKey("PK_RoomTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,9 +134,9 @@ namespace Hotel.Data.Migrations.Postgres
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rooms_RoomTypeEntity_RoomTypeId",
+                        name: "FK_Rooms_RoomTypes_RoomTypeId",
                         column: x => x.RoomTypeId,
-                        principalTable: "RoomTypeEntity",
+                        principalTable: "RoomTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -177,6 +190,9 @@ namespace Hotel.Data.Migrations.Postgres
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Admins");
+
+            migrationBuilder.DropTable(
                 name: "BookingEntityGuestEntity");
 
             migrationBuilder.DropTable(
@@ -195,7 +211,7 @@ namespace Hotel.Data.Migrations.Postgres
                 name: "Hotels");
 
             migrationBuilder.DropTable(
-                name: "RoomTypeEntity");
+                name: "RoomTypes");
         }
     }
 }

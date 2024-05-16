@@ -2,6 +2,9 @@
 using Hotel.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Hotel.Data.Models.Users.Guests;
+using Hotel.Data.Models.Users.Admins;
+using Hotel.Data.Models.Hotel;
+using Hotel.Data.Configurations.Hotel;
 
 namespace Hotel.Data
 {
@@ -13,8 +16,10 @@ namespace Hotel.Data
         }       
         public DbSet<HotelEntity> Hotels { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }
+        public DbSet<RoomTypeEntity> RoomTypes { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<GuestEntity> Guests { get; set; }
+        public DbSet<AdminEntity> Admins { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {         
             base.OnConfiguring(optionsBuilder);
@@ -28,8 +33,10 @@ namespace Hotel.Data
         {
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new GuestConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new HotelConfiguration());
-            modelBuilder.ApplyConfiguration(new RoomConfiguration());         
+            modelBuilder.ApplyConfiguration(new RoomConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());
         }
     }
 }

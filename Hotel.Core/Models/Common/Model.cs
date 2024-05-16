@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Hotel.Core.Models.Common
 {
-    public abstract class Model : IModel
-    {
-        public Guid Id { get; private set; }             
+    public class Model : IModel
+    {     
+        public Guid Id { get; private set; }
+        public Model(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }

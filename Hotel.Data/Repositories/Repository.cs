@@ -5,25 +5,35 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using Z.Linq;
 namespace Hotel.Data
 {
-    public class Repository<TEntity> : IRepository where TEntity : Entity
+    public class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : Entity
     {
+        #region CTOR
         protected readonly HotelDbContext? dbContext;
         protected readonly DbSet<TEntity>? dbSet;
         public Repository(HotelDbContext dbContext)
         {
             this.dbContext = dbContext;
-            dbSet = dbContext.GetDbSetProperties(new Type[] { typeof(TEntity) })[0].GetValue(dbContext) as DbSet<TEntity>;            
+            dbSet = dbContext.GetDbSetProperties(new Type[] { typeof(TEntity) })[0].GetValue(dbContext) as DbSet<TEntity>;
         }
+        public Repository(HotelDbContext dbContext, string nameProperty)
+        {
+            this.dbContext = dbContext;
+            List<PropertyInfo> propertyInfos = dbContext.GetDbSetProperties(new Type[] { typeof(TEntity) });
+            PropertyInfo? propertyInfo = propertyInfos.Find(item => item.Name == nameProperty);
+            dbSet = propertyInfo?.GetValue(dbContext) as DbSet<TEntity>;
+        }
+        #endregion 
         #region GET      
         public async Task<TEntity> Get(Guid id)
         {
             return await dbSet
                 .AsNoTracking()
                 .FirstOrDefaultAsync(item => item.Id == id);
-        }       
+        }
         public async Task<List<TEntity>> Get(Expression<Func<TEntity, object>>[] includeProperties) //GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company); https://metanit.com/sharp/entityframework/3.13.php
         {
             IQueryable<TEntity> query = dbSet.AsNoTracking();
@@ -39,18 +49,17 @@ namespace Hotel.Data
                 .AsNoTracking()
                 .ToListAsync();
         }
-        public async Task<TEntity> GetAll(Expression<Func<TEntity, bool>> func)
+        public async Task<List<TEntity>> GetAll(Predicate<TEntity> predicate)
         {
-            return await dbSet
-                .AsNoTracking()
-                .FirstOrDefaultAsync(func);
+            List<TEntity> entities = dbSet.AsNoTracking().ToList();
+            return entities.FindAll(predicate);
         }
         #endregion
         #region ADD
-        public virtual async Task Add(TEntity item) 
+        public async Task Add(TEntity item)
         {
             await dbSet.AddAsync(item);
-            await dbContext.SaveChangesAsync();           
+            await dbContext.SaveChangesAsync();
         }
         #endregion
         #region UPDATE
@@ -73,29 +82,7 @@ namespace Hotel.Data
         {
             await dbSet
                 .Where(c => c.Id == id)
-                .ExecuteDeleteAsync();            
-        }
-        #endregion
-        #region BASE_INTERFACE
-        public async Task Add(IModel item)
-        {
-            await Add(item as TEntity);
-        }
-
-        async Task<IModel> IRepository.Get(Guid id)
-        {
-            return await Get(id);
-        }
-
-        public async Task Update(IModel item)
-        {
-            await Update(item as TEntity);
-        }
-
-        async Task<List<IModel>> IRepository.GetAll()
-        {
-            List<TEntity> entities = await GetAll();                       
-            return (List<IModel>)await entities.CastAsync<IModel>();            
+                .ExecuteDeleteAsync();
         }
         #endregion
     }
