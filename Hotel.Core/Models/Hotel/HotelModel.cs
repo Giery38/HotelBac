@@ -9,23 +9,27 @@ namespace Hotel.Core.Models
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
         public string Address { get; private set; } = string.Empty;
-        public string Phone { get; private set; } = string.Empty;      
+        public string Phone { get; private set; } = string.Empty;
+        private int stras;
         public int Stars 
         { 
             get
             {
-                return Stars;
+                return stras;
             }
             private set
             {
                 if (value > 5)
                 {
-                    Stars = 5;
+                    stras = 5;
+                    return;
                 }
                 if (value < 0)
                 {
-                    Stars = 5;
+                    stras = 5;
+                    return;
                 }
+                stras = value;
             }
         }
         public List<string> Photos { get; private set; } = [];

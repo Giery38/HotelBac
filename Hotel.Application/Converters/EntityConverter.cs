@@ -16,13 +16,20 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Converters
 {
-    public static class EntityConverter
+    public static class EntityConverter 
     {
         #region ENTITY_TO_MODEL
 
         public static Model ToModel(this Entity entity)
         {
-            return new Model(entity.Id);
+            switch (entity)
+            {
+                case HotelEntity:
+                    HotelEntity hotelEntity = entity as HotelEntity;
+                    return hotelEntity.ToModel();            
+                default:
+                    return null;
+            }
         }
         #region HOTEL
         public static HotelModel ToModel(this HotelEntity entity)
@@ -63,7 +70,23 @@ namespace Hotel.Application.Converters
         #region MODEL_TO_ENTITY
         public static Entity ToEntity(this Model model)
         {
-            return new Entity() { Id = model.Id };
+            switch (model)
+            {
+                case HotelModel:
+                    HotelModel hotelModel = model as HotelModel;
+                    return hotelModel.ToEntity();
+                    break;
+                case RoomModel:
+                    RoomModel roomEntity = model as RoomModel;
+                    return roomEntity.ToEntity();
+                    break;
+                case GuestModel:
+                    GuestModel guestModel = model as GuestModel;
+                    return guestModel.ToEntity();
+                    break;
+                default:
+                    return null;                    
+            }
         }
         #region HOTEL
         public static HotelEntity ToEntity(this HotelModel model)

@@ -5,15 +5,18 @@ using Hotel.Data.Models.Users.Guests;
 using Hotel.Data.Models.Users.Admins;
 using Hotel.Data.Models.Hotel;
 using Hotel.Data.Configurations.Hotel;
+using Hotel.Core.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Hotel.Data
 {
     public class HotelDbContext : DbContext
     {
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
-        {                   
-            Database.EnsureCreated();
-        }       
+        {
+            
+        }
+        
         public DbSet<HotelEntity> Hotels { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }
         public DbSet<RoomTypeEntity> RoomTypes { get; set; }
@@ -21,13 +24,13 @@ namespace Hotel.Data
         public DbSet<GuestEntity> Guests { get; set; }
         public DbSet<AdminEntity> Admins { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {         
+        {            
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
             base.OnModelCreating(modelBuilder);            
-            ApplyConfigurations(modelBuilder);
+            ApplyConfigurations(modelBuilder);            
         }
         private void ApplyConfigurations(ModelBuilder modelBuilder)
         {

@@ -40,8 +40,8 @@ namespace Hotel.Application.Services.Data
         #region GETALL
         public async Task<List<TModel>> GetAll()
         {
-            List<TEntity> entities = await repository.GetAll();
-            return (List<TModel>)await entities.ConvertAll(item => item.ToModel()).CastAsync<TModel>();
+            List<TEntity> entities = await repository.GetAll();           
+            return await entities.ConvertAll(item => item.ToModel()).CastAsync<TModel>().ToList();
         }
         public async Task<List<TModel>> GetAll(Predicate<TEntity> predicate)
         {
@@ -51,7 +51,7 @@ namespace Hotel.Application.Services.Data
         #endregion
         #region ADD
         public async Task Add(TModel item)
-        {
+        {                
             await repository.Add(item.ToEntity() as TEntity);
         }
         #endregion

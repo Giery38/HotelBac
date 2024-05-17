@@ -13,6 +13,8 @@ using Hotel.Core.Models.Users.Guests;
 
 using Microsoft.Extensions.DependencyInjection;
 using Hotel.API.GraphQL;
+using Hotel.API.GraphQL.Types;
+using Hotel.Data.Configurations;
 
 namespace Hotel.API.Initialization
 {
@@ -27,13 +29,7 @@ namespace Hotel.API.Initialization
             ConfigurationManager configuration = innerbBuilder.Configuration;
             innerServices.AddControllers();
             innerServices.AddEndpointsApiExplorer();
-            
-            innerServices.AddGraphQLServer();
-            innerServices.AddDbContext<HotelDbContext>(
-                options =>
-                {
-                    options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
-                });           
+            AddGraphQLConfigure(configuration);
             AddRepositories();
             AddRepositoryServices();           
             return innerbBuilder;
@@ -47,38 +43,43 @@ namespace Hotel.API.Initialization
             app.MapGraphQL();
             app.Run();
             return app;
-        }        
+        }   
+        private static void AddGraphQLConfigure(ConfigurationManager configuration)
+        {            
+            innerServices.AddDbContext<HotelDbContext>(
+            options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
+
+            });
+            innerServices.AddGraphQLServer().AddQueryType<QueryType<HotelEntity, HotelModel, HotelType>>();
+        }
         private static void AddRepositories()
         {
+            HotelDbContext hotelDbContext = innerServices.BuildServiceProvider().GetService<HotelDbContext>();
             innerbBuilder.Services.AddScoped<IRepositoryAsync<AdminEntity>, Repository<AdminEntity>>(resolver =>
             {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<AdminEntity>(hotelDbContext, nameof(hotelDbContext.Admins));
+                return new Repository<AdminEntity>(hotelDbContext, hotelDbContext.Admins);
             });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<BookingEntity>, Repository<BookingEntity>>(resolver =>
             {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<BookingEntity>(hotelDbContext, nameof(hotelDbContext.Bookings));
+                return new Repository<BookingEntity>(hotelDbContext, hotelDbContext.Bookings);
             });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<GuestEntity>, Repository<GuestEntity>>(resolver =>
             {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<GuestEntity>(hotelDbContext, nameof(hotelDbContext.Guests));
+                return new Repository<GuestEntity>(hotelDbContext, hotelDbContext.Guests);
             });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<HotelEntity>, Repository<HotelEntity>>(resolver =>
-            {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<HotelEntity>(hotelDbContext, nameof(hotelDbContext.Hotels));
+            {          
+                return new Repository<HotelEntity>(hotelDbContext, hotelDbContext.Hotels);
             });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<RoomEntity>, Repository<RoomEntity>>(resolver =>
             {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<RoomEntity>(hotelDbContext, nameof(hotelDbContext.Rooms));
+                return new Repository<RoomEntity>(hotelDbContext, hotelDbContext.Rooms);
             });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<RoomTypeEntity>, Repository<RoomTypeEntity>>(resolver =>
             {
-                HotelDbContext? hotelDbContext = resolver.GetService<HotelDbContext>();
-                return new Repository<RoomTypeEntity>(hotelDbContext, nameof(hotelDbContext.RoomTypes));
+                return new Repository<RoomTypeEntity>(hotelDbContext, hotelDbContext.RoomTypes);
             });
         }
         private static void AddRepositoryServices()
@@ -86,7 +87,7 @@ namespace Hotel.API.Initialization
             innerServices.AddScoped<IRepositoryServiceAsync<AdminEntity, AdminModel>, RepositoryService<AdminEntity, AdminModel>>();
             innerServices.AddScoped<IRepositoryServiceAsync<BookingEntity, BookingModel>, RepositoryService<BookingEntity, BookingModel>>();
             innerServices.AddScoped<IRepositoryServiceAsync<GuestEntity, GuestModel>, RepositoryService<GuestEntity, GuestModel>>();
-            innerbBuilder.Services.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, RepositoryService<HotelEntity, HotelModel>>();
+            innerServices.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, RepositoryService<HotelEntity, HotelModel>>();          
             innerServices.AddScoped<IRepositoryServiceAsync<RoomEntity, RoomModel>, RepositoryService<RoomEntity, RoomModel>>();
             innerServices.AddScoped<IRepositoryServiceAsync<RoomTypeEntity, RoomTypeModel>, RepositoryService<RoomTypeEntity, RoomTypeModel>>();
         }

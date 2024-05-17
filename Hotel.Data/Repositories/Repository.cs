@@ -7,24 +7,18 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Z.Linq;
+
 namespace Hotel.Data
 {
     public class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : Entity
     {
         #region CTOR
         protected readonly HotelDbContext? dbContext;
-        protected readonly DbSet<TEntity>? dbSet;
-        public Repository(HotelDbContext dbContext)
+        protected DbSet<TEntity>? dbSet;
+        public Repository(HotelDbContext dbContext, DbSet<TEntity> dbSet)
         {
             this.dbContext = dbContext;
-            dbSet = dbContext.GetDbSetProperties(new Type[] { typeof(TEntity) })[0].GetValue(dbContext) as DbSet<TEntity>;
-        }
-        public Repository(HotelDbContext dbContext, string nameProperty)
-        {
-            this.dbContext = dbContext;
-            List<PropertyInfo> propertyInfos = dbContext.GetDbSetProperties(new Type[] { typeof(TEntity) });
-            PropertyInfo? propertyInfo = propertyInfos.Find(item => item.Name == nameProperty);
-            dbSet = propertyInfo?.GetValue(dbContext) as DbSet<TEntity>;
+            this.dbSet = dbSet;
         }
         #endregion 
         #region GET      
