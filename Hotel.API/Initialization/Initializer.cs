@@ -1,20 +1,14 @@
-﻿using Hotel.Data.Models.Users.Guests;
-using Hotel.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Hotel.Data.Models.Users.Admins;
-using Hotel.Data.Models;
-using Hotel.Data.Models.Hotel;
+﻿using Hotel.API.GraphQL.Types;
+using Hotel.API.GraphQL.Types.Query;
+using Hotel.API.GraphQL.Types.Query.Data;
 using Hotel.Application.Services.Data;
+using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models;
 using Hotel.Core.Models.Hotel;
-using Hotel.Core.Models.Users.Admins;
-using Hotel.Core.Models.Users.Guests;
-
-using Microsoft.Extensions.DependencyInjection;
-using Hotel.API.GraphQL;
-using Hotel.API.GraphQL.Types;
-using Hotel.Data.Configurations;
+using Hotel.Data;
+using Hotel.Data.Models;
+using Hotel.Data.Models.Hotel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.API.Initialization
 {
@@ -52,7 +46,9 @@ namespace Hotel.API.Initialization
                 options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
 
             });
-            innerServices.AddGraphQLServer().AddQueryType<QueryType<HotelEntity, HotelModel, HotelType>>();
+            HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();
+            tt.AddQueryType<HotelQueryType>();
+
         }
         private static void AddRepositories()
         {
@@ -84,12 +80,12 @@ namespace Hotel.API.Initialization
         }
         private static void AddRepositoryServices()
         {
-            innerServices.AddScoped<IRepositoryServiceAsync<AdminEntity, AdminModel>, RepositoryService<AdminEntity, AdminModel>>();
-            innerServices.AddScoped<IRepositoryServiceAsync<BookingEntity, BookingModel>, RepositoryService<BookingEntity, BookingModel>>();
-            innerServices.AddScoped<IRepositoryServiceAsync<GuestEntity, GuestModel>, RepositoryService<GuestEntity, GuestModel>>();
-            innerServices.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, RepositoryService<HotelEntity, HotelModel>>();          
-            innerServices.AddScoped<IRepositoryServiceAsync<RoomEntity, RoomModel>, RepositoryService<RoomEntity, RoomModel>>();
-            innerServices.AddScoped<IRepositoryServiceAsync<RoomTypeEntity, RoomTypeModel>, RepositoryService<RoomTypeEntity, RoomTypeModel>>();
+            innerServices.AddScoped<IRepositoryServiceAsync<AdminEntity, AdminModel>, AdminService>();
+            innerServices.AddScoped<IRepositoryServiceAsync<BookingEntity, BookingModel>, BookingService>();
+            innerServices.AddScoped<IRepositoryServiceAsync<GuestEntity, GuestModel>, GuestService>();
+            innerServices.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, HotelService>();          
+            innerServices.AddScoped<IRepositoryServiceAsync<RoomEntity, RoomModel>, RoomService>();
+            innerServices.AddScoped<IRepositoryServiceAsync<RoomTypeEntity, RoomTypeModel>, RoomTypeService>();
         }
     }
 }

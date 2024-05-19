@@ -1,24 +1,24 @@
 ﻿using HotChocolate.Types;
 using Hotel.Application.Services.Data;
+using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models.Common;
 using Hotel.Data;
 using Hotel.Data.Models;
 using Z.Linq;
 
-namespace Hotel.API.GraphQL
+namespace Hotel.API.GraphQL.Queries.Data.Common
 {
-    public class Query<TEntity, TModel> 
+    public class QueryData<TEntity, TModel>
         where TEntity : Entity
-        where TModel :  Model
+        where TModel : Model
     {
         private readonly IRepositoryServiceAsync<TEntity, TModel> repository;
-        public Query([Service] IRepositoryServiceAsync<TEntity, TModel> repository)
+        public QueryData([Service] IRepositoryServiceAsync<TEntity, TModel> repository)
         {
             this.repository = repository;
-        }       
+        }
         public async Task<List<TModel>> GetAll()
         {
-            var tt = await repository.GetAll(); 
             return await repository.GetAll();
         }
     }

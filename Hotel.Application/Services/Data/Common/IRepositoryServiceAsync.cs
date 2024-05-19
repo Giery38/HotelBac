@@ -3,7 +3,7 @@ using Hotel.Data.Models;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace Hotel.Application.Services.Data
+namespace Hotel.Application.Services.Data.Common
 {
     public interface IRepositoryServiceAsync<TEntity, TModel>
         where TEntity : Entity

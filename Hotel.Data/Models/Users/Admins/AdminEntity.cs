@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Data.Models.Users.Admins
+namespace Hotel.Data.Models
 {
     public class AdminEntity : UserEntity
     {

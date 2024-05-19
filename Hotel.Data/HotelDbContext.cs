@@ -1,12 +1,8 @@
 ﻿using Hotel.Data.Models;
 using Hotel.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Data.Models.Users.Guests;
-using Hotel.Data.Models.Users.Admins;
 using Hotel.Data.Models.Hotel;
 using Hotel.Data.Configurations.Hotel;
-using Hotel.Core.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Hotel.Data
 {

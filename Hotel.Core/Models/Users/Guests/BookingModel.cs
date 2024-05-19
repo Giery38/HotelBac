@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Core.Models.Users.Guests
+namespace Hotel.Core.Models
 {
     public class BookingModel : Model
     {

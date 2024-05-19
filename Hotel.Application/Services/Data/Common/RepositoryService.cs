@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.Linq;
 
-namespace Hotel.Application.Services.Data
+namespace Hotel.Application.Services.Data.Common
 {
     public class RepositoryService<TEntity, TModel> : IRepositoryServiceAsync<TEntity, TModel>
         where TEntity : Entity
@@ -40,7 +40,7 @@ namespace Hotel.Application.Services.Data
         #region GETALL
         public async Task<List<TModel>> GetAll()
         {
-            List<TEntity> entities = await repository.GetAll();           
+            List<TEntity> entities = await repository.GetAll();
             return await entities.ConvertAll(item => item.ToModel()).CastAsync<TModel>().ToList();
         }
         public async Task<List<TModel>> GetAll(Predicate<TEntity> predicate)
@@ -51,7 +51,7 @@ namespace Hotel.Application.Services.Data
         #endregion
         #region ADD
         public async Task Add(TModel item)
-        {                
+        {
             await repository.Add(item.ToEntity() as TEntity);
         }
         #endregion
@@ -73,4 +73,3 @@ namespace Hotel.Application.Services.Data
         #endregion
     }
 }
- 

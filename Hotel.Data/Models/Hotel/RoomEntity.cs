@@ -1,5 +1,4 @@
 ﻿using Hotel.Data.Models.Hotel;
-using Hotel.Data.Models.Users.Guests;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hotel.Data.Models

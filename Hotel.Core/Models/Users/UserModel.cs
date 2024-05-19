@@ -1,6 +1,6 @@
 ﻿using Hotel.Core.Models.Common;
 
-namespace Hotel.Core.Models.Users
+namespace Hotel.Core.Models
 {
     public abstract class UserModel : Model
     {

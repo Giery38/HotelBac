@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Data.Models.Users
+namespace Hotel.Data.Models
 {
     public abstract class UserEntity : Entity
     {

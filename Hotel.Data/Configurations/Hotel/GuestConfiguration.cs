@@ -1,12 +1,5 @@
-﻿using Hotel.Data.Configurations;
-using Hotel.Data.Models.Users.Guests;
-using Microsoft.EntityFrameworkCore;
+﻿using Hotel.Data.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel.Data.Configurations
 {

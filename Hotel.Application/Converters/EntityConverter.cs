@@ -1,12 +1,8 @@
 ﻿using Hotel.Core.Models;
 using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
-using Hotel.Core.Models.Users.Admins;
-using Hotel.Core.Models.Users.Guests;
 using Hotel.Data.Models;
 using Hotel.Data.Models.Hotel;
-using Hotel.Data.Models.Users.Admins;
-using Hotel.Data.Models.Users.Guests;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -26,7 +22,22 @@ namespace Hotel.Application.Converters
             {
                 case HotelEntity:
                     HotelEntity hotelEntity = entity as HotelEntity;
-                    return hotelEntity.ToModel();            
+                    return hotelEntity.ToModel();
+                case RoomEntity:
+                    RoomEntity roomEntity = entity as RoomEntity;
+                    return roomEntity.ToModel();
+                case RoomTypeEntity:
+                    RoomTypeEntity roomTypeEntity = entity as RoomTypeEntity;
+                    return roomTypeEntity.ToModel();
+                case GuestEntity:
+                    GuestEntity guestEntity = entity as GuestEntity;
+                    return guestEntity.ToModel();
+                case BookingEntity:
+                    BookingEntity bookingEntity = entity as BookingEntity;
+                    return bookingEntity.ToModel();
+                case AdminEntity:
+                    AdminEntity adminEntity =   entity as AdminEntity;
+                    return adminEntity.ToModel();
                 default:
                     return null;
             }
@@ -75,15 +86,21 @@ namespace Hotel.Application.Converters
                 case HotelModel:
                     HotelModel hotelModel = model as HotelModel;
                     return hotelModel.ToEntity();
-                    break;
                 case RoomModel:
                     RoomModel roomEntity = model as RoomModel;
                     return roomEntity.ToEntity();
-                    break;
+                case RoomTypeModel:
+                    RoomTypeModel roomTypeModel = model as RoomTypeModel;
+                    return roomTypeModel.ToEntity();
                 case GuestModel:
                     GuestModel guestModel = model as GuestModel;
                     return guestModel.ToEntity();
-                    break;
+                case BookingModel:
+                    BookingModel bookingModel = model as BookingModel;
+                    return bookingModel.ToEntity();
+                case AdminModel:
+                    AdminModel adminModel = model as AdminModel;
+                    return adminModel.ToEntity();
                 default:
                     return null;                    
             }

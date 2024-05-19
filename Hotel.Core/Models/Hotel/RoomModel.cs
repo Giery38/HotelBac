@@ -1,6 +1,5 @@
 ﻿using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
-using Hotel.Core.Models.Users.Guests;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
