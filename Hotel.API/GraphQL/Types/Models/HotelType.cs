@@ -1,12 +1,17 @@
-﻿using Hotel.Core.Models;
+﻿using Hotel.API.GraphQL.Types.Models.Common;
+using Hotel.Core.Models;
 
 namespace Hotel.API.GraphQL.Types.Models
 {
-    public class HotelType : ObjectType<HotelModel>
+    public class HotelType : BaseDataObjectType<HotelModel>
     {
-        protected override void Configure(IObjectTypeDescriptor<HotelModel> descriptor)
+        public HotelType()
         {
-
+           
+        }
+        protected override void CustomConfigure(IObjectTypeDescriptor<HotelModel> descriptor)
+        {
+            
         }
     }
 }

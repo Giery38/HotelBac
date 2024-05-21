@@ -1,4 +1,7 @@
-﻿using Hotel.API.GraphQL.Types;
+﻿using Hotel.API.GraphQL.Queries.Data;
+using Hotel.API.GraphQL.Queries.Data.Common;
+using Hotel.API.GraphQL.Types;
+using Hotel.API.GraphQL.Types.Models;
 using Hotel.API.GraphQL.Types.Query;
 using Hotel.API.GraphQL.Types.Query.Data;
 using Hotel.Application.Services.Data;
@@ -23,6 +26,12 @@ namespace Hotel.API.Initialization
             ConfigurationManager configuration = innerbBuilder.Configuration;
             innerServices.AddControllers();
             innerServices.AddEndpointsApiExplorer();
+            innerServices.AddDbContext<HotelDbContext>(
+            options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
+
+            });
             AddGraphQLConfigure(configuration);
             AddRepositories();
             AddRepositoryServices();           
@@ -40,15 +49,8 @@ namespace Hotel.API.Initialization
         }   
         private static void AddGraphQLConfigure(ConfigurationManager configuration)
         {            
-            innerServices.AddDbContext<HotelDbContext>(
-            options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
-
-            });
             HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();
-            tt.AddQueryType<HotelQueryType>();
-
+            tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();
         }
         private static void AddRepositories()
         {
