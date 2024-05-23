@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel.Data.Models.Hotel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Hotel.Data.Models
         public string CheckIn { get; set; } = string.Empty;
         public string CheckOut { get; set; } = string.Empty;
         public decimal Cost { get; set; } = 0;
-        services
+        public List<ServiceEntity> Services { get; set; } = [];
         public List<RoomEntity> Rooms { get; set; } = [];
         public List<GuestEntity> Guests { get; set; } = [];
     }

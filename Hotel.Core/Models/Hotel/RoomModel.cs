@@ -13,23 +13,12 @@ namespace Hotel.Core.Models
     {
         public int Number { get; set; } = 0;
         public decimal Price { get; private set; } = 0;
-        public RoomTypeModel RoomType { get; private set; }
-        public string Description { get; private set; } = string.Empty;
-        public int Occupancy { get; private set; } = 0;
-        public List<string> Photos { get; private set; } = [];
+        public int Area { get; private set; } = 0;
+        // view сюда
+        public RoomTypeModel RoomType { get; private set; } //чекни хз
+        public int Capacity { get; private set; } = 0;
         public HotelModel Hotel { get; private set; }
         public List<BookingModel> Bookings { get; set; } = [];
-        public RoomModel(Guid id, int number, decimal price, RoomTypeModel roomType, string description, int occupancy, List<string> photos, HotelModel hotel, List<BookingModel> bookings) : base(id)
-        {
-            Number = number;
-            Price = price;
-            RoomType = roomType;
-            Description = description;
-            Occupancy = occupancy;
-            Photos = photos;
-            Hotel = hotel;
-            Bookings = bookings;
-        }
 
     }
 }

@@ -92,8 +92,8 @@ namespace Hotel.Application.Converters
                 case BookingModel:
                     BookingModel bookingModel = model as BookingModel;
                     return bookingModel.ToEntity();
-                case AdminModel:
-                    AdminModel adminModel = model as AdminModel;
+                case StaffModel:
+                    StaffModel adminModel = model as StaffModel;
                     return adminModel.ToEntity();
                 default:
                     return null;                    
@@ -124,7 +124,7 @@ namespace Hotel.Application.Converters
                 Photos = model.Photos,
                 Description = model.Description,
                 Number = model.Number,
-                Capacity = model.Occupancy,
+                Capacity = model.Capacity,
                 Price = model.Price,
                 RoomType = model.RoomType.ToEntity(),
                 Hotel = model.Hotel.ToEntity(),
@@ -166,7 +166,7 @@ namespace Hotel.Application.Converters
                 CheckOut = model.CheckOut.ToString(),
                 Id = model.Id,
                 Paid = model.Paid,
-                Cost = model.Value,
+                Cost = model.Cost,
                 Guests = model.Guests.ConvertAll(i => i.ToEntity()),
                 Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
             };
