@@ -1,11 +1,16 @@
-﻿using Hotel.Core.Models;
+﻿using HotChocolate.Types.Descriptors;
+using HotChocolate.Types.Descriptors.Definitions;
+using Hotel.API.GraphQL.Types.Models.Hotel;
+using Hotel.Core.Models;
 using Hotel.Core.Models.Common;
+using Hotel.Data.Models;
 
 namespace Hotel.API.GraphQL.Types.Models.Common
 {
-    public class BaseDataObjectType<TModel> : ObjectType<TModel>, IOutputType
+    public class BaseDataObjectType<TModel> : ObjectType<TModel>
     where TModel : Model
     {
+
         protected override void Configure(IObjectTypeDescriptor<TModel> descriptor)
         {
             Type type = this.GetType();
@@ -23,4 +28,5 @@ namespace Hotel.API.GraphQL.Types.Models.Common
         }
 
     }
+
 }

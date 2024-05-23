@@ -2,6 +2,8 @@
 using Hotel.API.GraphQL.Queries.Data.Common;
 using Hotel.API.GraphQL.Types;
 using Hotel.API.GraphQL.Types.Models;
+using Hotel.API.GraphQL.Types.Models.Hotel;
+using Hotel.API.GraphQL.Types.Models.Users;
 using Hotel.API.GraphQL.Types.Query;
 using Hotel.API.GraphQL.Types.Query.Data;
 using Hotel.Application.Services.Data;
@@ -49,8 +51,8 @@ namespace Hotel.API.Initialization
         }   
         private static void AddGraphQLConfigure(ConfigurationManager configuration)
         {            
-            HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();
-            tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();
+            HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();            
+            tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();            
         }
         private static void AddRepositories()
         {
