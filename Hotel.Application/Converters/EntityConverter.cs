@@ -35,9 +35,6 @@ namespace Hotel.Application.Converters
                 case BookingEntity:
                     BookingEntity bookingEntity = entity as BookingEntity;
                     return bookingEntity.ToModel();
-                case AdminEntity:
-                    AdminEntity adminEntity =   entity as AdminEntity;
-                    return adminEntity.ToModel();
                 default:
                     return null;
             }
@@ -46,12 +43,12 @@ namespace Hotel.Application.Converters
         public static HotelModel ToModel(this HotelEntity entity)
         {
             return new HotelModel(entity.Id, entity.Name, entity.Description,
-                entity.Address, entity.Phone, entity.Stars, entity.Photos);
+                entity.Location, entity.Phone, entity.Stars, entity.Photos);
         }
         public static RoomModel ToModel(this RoomEntity entity)
         {
             return new RoomModel(entity.Id, entity.Number, entity.Price, entity.RoomType.ToModel(),
-                entity.Description, entity.Occupancy, entity.Photos,
+                entity.Description, entity.Capacity, entity.Photos,
                 entity.Hotel.ToModel(), entity.Bookings.ConvertAll(i => i.ToModel()));
         }
         public static RoomTypeModel ToModel(this RoomTypeEntity entity)
@@ -69,13 +66,10 @@ namespace Hotel.Application.Converters
         public static BookingModel ToModel(this BookingEntity entity)
         {
             return new BookingModel(entity.Id, DateTime.Parse(entity.CheckIn),
-                DateTime.Parse(entity.CheckOut), entity.Value, entity.Paid,
+                DateTime.Parse(entity.CheckOut), entity.Cost, entity.Paid,
                 entity.Rooms.ConvertAll(i => i.ToModel()), entity.Guests.ConvertAll(i => i.ToModel()));
         }
-        public static AdminModel ToModel(this AdminEntity entity)
-        {
-            return new AdminModel(entity.Id, entity.Password, entity.Login);
-        }
+        
         #endregion
         #endregion
         #region MODEL_TO_ENTITY
@@ -111,7 +105,7 @@ namespace Hotel.Application.Converters
             return new HotelEntity()
             {
                 Id = model.Id,
-                Address = model.Address,
+                Location = model.Address,
                 Description = model.Description,
                 Name = model.Name,
                 Phone = model.Phone,
@@ -130,7 +124,7 @@ namespace Hotel.Application.Converters
                 Photos = model.Photos,
                 Description = model.Description,
                 Number = model.Number,
-                Occupancy = model.Occupancy,
+                Capacity = model.Occupancy,
                 Price = model.Price,
                 RoomType = model.RoomType.ToEntity(),
                 Hotel = model.Hotel.ToEntity(),
@@ -172,14 +166,10 @@ namespace Hotel.Application.Converters
                 CheckOut = model.CheckOut.ToString(),
                 Id = model.Id,
                 Paid = model.Paid,
-                Value = model.Value,
+                Cost = model.Value,
                 Guests = model.Guests.ConvertAll(i => i.ToEntity()),
                 Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
             };
-        }
-        public static AdminEntity ToEntity(this AdminModel model)
-        {
-            return new AdminEntity() { Id = model.Id, Login = model.Login, Password = model.Password };
         }
         #endregion
         #endregion

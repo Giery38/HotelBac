@@ -9,9 +9,9 @@ namespace Hotel.Data.Models
 {
     public abstract class UserEntity : Entity
     {
-        [Required]
-        public string Password { get; set; } = string.Empty;
-        [Required]
-        public string Login { get; set; } = string.Empty;   
+        public string Name { get; set; } = string.Empty;
+        public string BirthDate { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
+        public int Rating {  get; set; } = 0; 
     }
 }

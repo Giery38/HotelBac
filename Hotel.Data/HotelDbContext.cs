@@ -18,7 +18,6 @@ namespace Hotel.Data
         public DbSet<RoomTypeEntity> RoomTypes { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<GuestEntity> Guests { get; set; }
-        public DbSet<AdminEntity> Admins { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {            
             base.OnConfiguring(optionsBuilder);
@@ -32,7 +31,6 @@ namespace Hotel.Data
         {
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new GuestConfiguration());
-            modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new HotelConfiguration());
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
             modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());

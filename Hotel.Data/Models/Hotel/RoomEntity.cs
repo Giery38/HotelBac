@@ -8,12 +8,15 @@ namespace Hotel.Data.Models
         public int Number { get; set; } = 0;
         public decimal Price { get; set; } = 0;
         public Guid RoomTypeId { get; set; }
+        public int Area { get; set; } = 0;
+        public Guid ViewId { get; set; }
+
+        [ForeignKey(nameof(ViewId))]
+        public ViewTypeEntity? View { get; set; }
 
         [ForeignKey(nameof(RoomTypeId))]
         public RoomTypeEntity? RoomType { get; set; } 
-        public string Description { get; set; } = string.Empty;
-        public int Occupancy { get; set; } = 0;
-        public List<string> Photos { get; set; } = [];
+        public int Capacity { get; set; } = 0;
         public Guid HotelId { get; set; }
 
         [ForeignKey(nameof(HotelId))]

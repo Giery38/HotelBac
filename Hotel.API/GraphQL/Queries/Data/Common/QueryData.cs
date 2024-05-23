@@ -1,23 +1,14 @@
-﻿using HotChocolate.Types;
-using Hotel.API.GraphQL.Types.Models.Common;
-using Hotel.API.GraphQL.Types.Models.Hotel;
-using Hotel.API.GraphQL.Types.Models.Users;
-using Hotel.API.GraphQL.Types.Query.Data;
-using Hotel.Application.Converters;
-using Hotel.Application.Services.Data;
+﻿using Hotel.API.GraphQL.Models;
 using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models.Common;
-using Hotel.Data;
 using Hotel.Data.Models;
-using System.Dynamic;
-using Z.Linq;
 
 namespace Hotel.API.GraphQL.Queries.Data.Common
 {
-    public class QueryData<TEntity, TModel, TType>
+    public class QueryData<TEntity, TModel, TEntityQL>
         where TEntity : Entity
         where TModel : Model
-        where TType : BaseDataObjectType<TModel>
+        where TEntityQL : EntityQL
     {
         private readonly IRepositoryServiceAsync<TEntity, TModel> repository;
         public QueryData([Service] IRepositoryServiceAsync<TEntity, TModel> repository)
@@ -26,12 +17,12 @@ namespace Hotel.API.GraphQL.Queries.Data.Common
         }        
         [UseFiltering]        
         [UseSorting]
-        public async Task<List<TType>> Get()
+        public async Task<List<TEntityQL>> Get()
         {
-            return new List<TType>();
+            return new List<TEntityQL>();
             //return await repository.GetAll();
         }
-        public TModel Add(Test item)
+        public TModel Add(TEntityQL item)
         {
             //var tt = EntityConverter.ToModel(item);
             return default;

@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Hotel.Data\Hotel.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="GraphQL\Types\Models\" />
+    <Folder Include="GraphQL\Types\Query\Data\" />
+  </ItemGroup>
+
 </Project>

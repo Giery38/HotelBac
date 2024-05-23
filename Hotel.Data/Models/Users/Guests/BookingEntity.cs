@@ -11,8 +11,8 @@ namespace Hotel.Data.Models
     {
         public string CheckIn { get; set; } = string.Empty;
         public string CheckOut { get; set; } = string.Empty;
-        public decimal Value { get; set; } = 0;
-        public bool Paid { get; set; } = false;
+        public decimal Cost { get; set; } = 0;
+        services
         public List<RoomEntity> Rooms { get; set; } = [];
         public List<GuestEntity> Guests { get; set; } = [];
     }

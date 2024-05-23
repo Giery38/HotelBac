@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hotel.Data.Models
 {
-    public class GuestEntity : UserEntity
+    public class EnumTypeEntity : Entity
     {
-        public List<BookingEntity> Bookings { get; set; } = [];
-       
+        [Required]
+        public string Value { get; set; } = string.Empty;
     }
 }

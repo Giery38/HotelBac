@@ -1,12 +1,4 @@
-﻿using Hotel.API.GraphQL.Queries.Data;
-using Hotel.API.GraphQL.Queries.Data.Common;
-using Hotel.API.GraphQL.Types;
-using Hotel.API.GraphQL.Types.Models;
-using Hotel.API.GraphQL.Types.Models.Hotel;
-using Hotel.API.GraphQL.Types.Models.Users;
-using Hotel.API.GraphQL.Types.Query;
-using Hotel.API.GraphQL.Types.Query.Data;
-using Hotel.Application.Services.Data;
+﻿using Hotel.Application.Services.Data;
 using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models;
 using Hotel.Core.Models.Hotel;
@@ -52,15 +44,11 @@ namespace Hotel.API.Initialization
         private static void AddGraphQLConfigure(ConfigurationManager configuration)
         {            
             HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();            
-            tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();            
+            //tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();            
         }
         private static void AddRepositories()
         {
             HotelDbContext hotelDbContext = innerServices.BuildServiceProvider().GetService<HotelDbContext>();
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<AdminEntity>, Repository<AdminEntity>>(resolver =>
-            {
-                return new Repository<AdminEntity>(hotelDbContext, hotelDbContext.Admins);
-            });
             innerbBuilder.Services.AddScoped<IRepositoryAsync<BookingEntity>, Repository<BookingEntity>>(resolver =>
             {
                 return new Repository<BookingEntity>(hotelDbContext, hotelDbContext.Bookings);
@@ -84,7 +72,6 @@ namespace Hotel.API.Initialization
         }
         private static void AddRepositoryServices()
         {
-            innerServices.AddScoped<IRepositoryServiceAsync<AdminEntity, AdminModel>, AdminService>();
             innerServices.AddScoped<IRepositoryServiceAsync<BookingEntity, BookingModel>, BookingService>();
             innerServices.AddScoped<IRepositoryServiceAsync<GuestEntity, GuestModel>, GuestService>();
             innerServices.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, HotelService>();          

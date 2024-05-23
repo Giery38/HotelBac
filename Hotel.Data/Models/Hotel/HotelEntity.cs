@@ -12,12 +12,9 @@ namespace Hotel.Data.Models
     {
         [Required]
         public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
         [Required]
-        public string Address { get; set; } = string.Empty;
-        public string Phone {  get; set; } = string.Empty;
-        public int Stars { get; set; } = 0; // сделать класс старс
-        public List<string> Photos { get; set; } = [];
+        public string Location { get; set; } = string.Empty;
+        public int Stars { get; set; } = 0;
         [Required]        
         public List<RoomEntity> Rooms { get; set; } = [];
     }
