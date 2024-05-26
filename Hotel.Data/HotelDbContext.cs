@@ -14,7 +14,7 @@ namespace Hotel.Data
     {
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+         
         }
         #region HOTEL
         public DbSet<HotelEntity> Hotels { get; set; }

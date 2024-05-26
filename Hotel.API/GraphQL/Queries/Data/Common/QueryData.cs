@@ -5,6 +5,7 @@ using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Users.Guests;
 using Hotel.Data.Models;
 using Hotel.Data.Models.Users.Guests;
+using System.ComponentModel;
 
 namespace Hotel.API.GraphQL.Queries.Data.Common
 {
@@ -24,10 +25,14 @@ namespace Hotel.API.GraphQL.Queries.Data.Common
         [UseSorting]
         public async Task<List<TEntityQL>> Get()
         {
+            var tt = await repository.GetAll();
             return new List<TEntityQL>();
             //return await repository.GetAll();
+        }   
+        public async Task<List<Guid>> GetId()
+        {
+            return new List<Guid>();
         }
-
         public string Add(TEntityQL item)
         {
             //var tt = EntityConverter.ToModel(item);
@@ -35,11 +40,14 @@ namespace Hotel.API.GraphQL.Queries.Data.Common
             //await repository.Add()
         }
     }
-    public class Test : ObjectType<QueryData<BookingEntity,BookingModel,BookingQL>>
+    public class Test<TEntity, TModel, TEntityQL> : ObjectType<QueryData<TEntity, TModel, TEntityQL>>
+        where TEntity : Entity
+        where TModel : Model
+        where TEntityQL : EntityQL 
     {
-        protected override void Configure(IObjectTypeDescriptor<QueryData<BookingEntity, BookingModel, BookingQL>> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<QueryData<TEntity, TModel, TEntityQL>> descriptor)
         {
-
+            
         }
     }
 }

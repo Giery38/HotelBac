@@ -1,11 +1,14 @@
 ﻿using HotChocolate.Execution.Configuration;
+using Hotel.API.GraphQL.Models.Hotel;
 using Hotel.API.GraphQL.Queries.Data.Common;
 using Hotel.Application.Services.Data;
 using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models;
 using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
+using Hotel.Core.Models.Users.Common;
 using Hotel.Core.Models.Users.Guests;
+using Hotel.Core.Models.Users.Staff;
 using Hotel.Data;
 using Hotel.Data.Models;
 using Hotel.Data.Models.Hotel;
@@ -36,7 +39,7 @@ namespace Hotel.API.Initialization
             });
             AddGraphQLConfigure(configuration);
             AddRepositories();
-            AddRepositoryServices();
+            AddRepositoryServices();           
             return innerbBuilder;
         }
 
@@ -54,7 +57,7 @@ namespace Hotel.API.Initialization
         private static void AddGraphQLConfigure(ConfigurationManager configuration)
         {
             IRequestExecutorBuilder RequestExecutorBuilder = innerServices.AddGraphQLServer();
-            //RequestExecutorBuilder.AddQueryType<Test>().AddFiltering().AddProjections().AddSorting();
+            RequestExecutorBuilder.AddQueryType<Test<BookingEntity,BookingModel,BookingQL>>().AddFiltering().AddProjections().AddSorting();        
         } 
 
         private static void AddRepositories()
@@ -70,7 +73,7 @@ namespace Hotel.API.Initialization
         }
         private static void AddRepository<TEntity>(this IServiceCollection services, HotelDbContext hotelDbContext, DbSet<TEntity> dbSet) where TEntity : Entity
         {
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<TEntity>, Repository<TEntity>>(resolver =>
+            innerServices.AddScoped<IRepositoryAsync<TEntity>, Repository<TEntity>>(resolver =>
             {
                 return new Repository<TEntity>(hotelDbContext, dbSet);
             });
@@ -78,15 +81,23 @@ namespace Hotel.API.Initialization
 
         private static void AddRepositoryServices()
         {
-            innerServices.AddRepositoryService<BookingEntity, BookingModel>();
-            innerServices.AddRepositoryService<GuestEntity, GuestModel>();
-            innerServices.AddRepositoryService<ServiceEntity, ServiceModel>();         
+            innerServices.AddScoped<IRepositoryServicesCollection, RepositoryServicesCollection>();
+            IRepositoryServicesCollection collection = innerServices.BuildServiceProvider().GetService<IRepositoryServicesCollection>();
+            innerServices.AddRepositoryService<BookingEntity, BookingModel>(collection);
+            innerServices.AddRepositoryService<GuestEntity, GuestModel>(collection);
+            innerServices.AddRepositoryService<ServiceEntity, ServiceModel>(collection);
+            innerServices.AddRepositoryService<ServiceTypeEntity, ServiceTypeModel>(collection);
+            innerServices.AddRepositoryService<UserFeedbackEntity, UserFeedbackModel>(collection);
+            innerServices.AddRepositoryService<StaffEntity, StaffModel>(collection);
+            innerServices.AddRepositoryService<PositionTypeEntity, PositionTypeModel>(collection);
         }
-        private static void AddRepositoryService<TEntity, TModel>(this IServiceCollection services)
+        private static void AddRepositoryService<TEntity, TModel>(this IServiceCollection services, IRepositoryServicesCollection collection)
             where TEntity : Entity
             where TModel : Model
-        {
+        {            
             services.AddScoped<IRepositoryServiceAsync<TEntity, TModel>, RepositoryService<TEntity, TModel>>();
+            IRepositoryServiceAsync<TEntity, TModel> item =  innerServices.BuildServiceProvider().GetService<IRepositoryServiceAsync<TEntity, TModel>>();
+            collection.Add(item);
         }
     }
 }
