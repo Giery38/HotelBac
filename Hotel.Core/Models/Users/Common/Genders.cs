@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Data.Models.Users.Guests
+namespace Hotel.Core.Models.Users.Common
 {
-    public class GuestFeedbackEntity : Entity
+    public enum Genders
     {
-        public int Satisfied { get; set; } = 0;
+        none,
+        Female,
+        Mele
     }
 }

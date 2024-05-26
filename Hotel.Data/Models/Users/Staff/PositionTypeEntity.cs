@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hotel.Data.Models.Users
+﻿namespace Hotel.Data.Models.Users.Staff
 {
-    public class PositionTypeEntity : EnumTypeEntity
+    public class PositionTypeEntity : TypeEntity
     {
         public List<StaffEntity> Staff { get; set; } = [];
     }

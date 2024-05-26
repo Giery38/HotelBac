@@ -1,13 +1,7 @@
-﻿using Hotel.Data.Models.Hotel;
-using Hotel.Data.Models.Users.Staff;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Hotel.Data.Models.Users.Common;
 
-namespace Hotel.Data.Models
+namespace Hotel.Data.Models.Users.Staff
 {
     public class StaffEntity : UserEntity
     {

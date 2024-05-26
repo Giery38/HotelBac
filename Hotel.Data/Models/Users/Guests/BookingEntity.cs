@@ -1,12 +1,6 @@
 ﻿using Hotel.Data.Models.Hotel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hotel.Data.Models
+namespace Hotel.Data.Models.Users.Guests
 {
     public class BookingEntity : Entity
     {

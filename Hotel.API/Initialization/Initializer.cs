@@ -1,11 +1,19 @@
-﻿using Hotel.Application.Services.Data;
+﻿using HotChocolate.Execution.Configuration;
+using Hotel.API.GraphQL.Queries.Data.Common;
+using Hotel.Application.Services.Data;
 using Hotel.Application.Services.Data.Common;
 using Hotel.Core.Models;
+using Hotel.Core.Models.Common;
 using Hotel.Core.Models.Hotel;
+using Hotel.Core.Models.Users.Guests;
 using Hotel.Data;
 using Hotel.Data.Models;
 using Hotel.Data.Models.Hotel;
+using Hotel.Data.Models.Users.Common;
+using Hotel.Data.Models.Users.Guests;
+using Hotel.Data.Models.Users.Staff;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace Hotel.API.Initialization
 {
@@ -13,6 +21,7 @@ namespace Hotel.API.Initialization
     {
         private static WebApplicationBuilder? innerbBuilder;
         private static IServiceCollection? innerServices;
+
         public static WebApplicationBuilder Initialize(string[] args)
         {
             innerbBuilder = WebApplication.CreateSlimBuilder(args);
@@ -24,13 +33,13 @@ namespace Hotel.API.Initialization
             options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
-
             });
             AddGraphQLConfigure(configuration);
             AddRepositories();
-            AddRepositoryServices();           
+            AddRepositoryServices();
             return innerbBuilder;
         }
+
         public static WebApplication Startup(WebApplicationBuilder builder)
         {
             WebApplication app = builder.Build();
@@ -40,43 +49,44 @@ namespace Hotel.API.Initialization
             app.MapGraphQL();
             app.Run();
             return app;
-        }   
-        private static void AddGraphQLConfigure(ConfigurationManager configuration)
-        {            
-            HotChocolate.Execution.Configuration.IRequestExecutorBuilder tt = innerServices.AddGraphQLServer();            
-            //tt.AddQueryType<HotelQueryType>().AddFiltering().AddProjections().AddSorting();            
         }
+
+        private static void AddGraphQLConfigure(ConfigurationManager configuration)
+        {
+            IRequestExecutorBuilder RequestExecutorBuilder = innerServices.AddGraphQLServer();
+            //RequestExecutorBuilder.AddQueryType<Test>().AddFiltering().AddProjections().AddSorting();
+        } 
+
         private static void AddRepositories()
         {
             HotelDbContext hotelDbContext = innerServices.BuildServiceProvider().GetService<HotelDbContext>();
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<BookingEntity>, Repository<BookingEntity>>(resolver =>
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Bookings);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Guests);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Services);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.ServiceTypes);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Feedbacks);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Staff);
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.PositionTypes);
+        }
+        private static void AddRepository<TEntity>(this IServiceCollection services, HotelDbContext hotelDbContext, DbSet<TEntity> dbSet) where TEntity : Entity
+        {
+            innerbBuilder.Services.AddScoped<IRepositoryAsync<TEntity>, Repository<TEntity>>(resolver =>
             {
-                return new Repository<BookingEntity>(hotelDbContext, hotelDbContext.Bookings);
-            });
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<GuestEntity>, Repository<GuestEntity>>(resolver =>
-            {
-                return new Repository<GuestEntity>(hotelDbContext, hotelDbContext.Guests);
-            });
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<HotelEntity>, Repository<HotelEntity>>(resolver =>
-            {          
-                return new Repository<HotelEntity>(hotelDbContext, hotelDbContext.Hotels);
-            });
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<RoomEntity>, Repository<RoomEntity>>(resolver =>
-            {
-                return new Repository<RoomEntity>(hotelDbContext, hotelDbContext.Rooms);
-            });
-            innerbBuilder.Services.AddScoped<IRepositoryAsync<RoomTypeEntity>, Repository<RoomTypeEntity>>(resolver =>
-            {
-                return new Repository<RoomTypeEntity>(hotelDbContext, hotelDbContext.RoomTypes);
+                return new Repository<TEntity>(hotelDbContext, dbSet);
             });
         }
+
         private static void AddRepositoryServices()
         {
-            innerServices.AddScoped<IRepositoryServiceAsync<BookingEntity, BookingModel>, BookingService>();
-            innerServices.AddScoped<IRepositoryServiceAsync<GuestEntity, GuestModel>, GuestService>();
-            innerServices.AddScoped<IRepositoryServiceAsync<HotelEntity, HotelModel>, HotelService>();          
-            innerServices.AddScoped<IRepositoryServiceAsync<RoomEntity, RoomModel>, RoomService>();
-            innerServices.AddScoped<IRepositoryServiceAsync<RoomTypeEntity, RoomTypeModel>, RoomTypeService>();
+            innerServices.AddRepositoryService<BookingEntity, BookingModel>();
+            innerServices.AddRepositoryService<GuestEntity, GuestModel>();
+            innerServices.AddRepositoryService<ServiceEntity, ServiceModel>();         
+        }
+        private static void AddRepositoryService<TEntity, TModel>(this IServiceCollection services)
+            where TEntity : Entity
+            where TModel : Model
+        {
+            services.AddScoped<IRepositoryServiceAsync<TEntity, TModel>, RepositoryService<TEntity, TModel>>();
         }
     }
 }

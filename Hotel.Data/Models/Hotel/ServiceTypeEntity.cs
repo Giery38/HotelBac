@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Hotel.Data.Models.Hotel
+﻿namespace Hotel.Data.Models.Hotel
 {
-    public class ServiceTypeEntity : EnumTypeEntity
+    public class ServiceTypeEntity : TypeEntity
     {
         public List<ServiceEntity> Services { get; set; } = [];
     }

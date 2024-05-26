@@ -1,11 +1,7 @@
-﻿using Hotel.Core.Extensions;
-using Hotel.Core.Models.Common;
-using Hotel.Data.Models;
+﻿using Hotel.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
 using Z.Linq;
 
 namespace Hotel.Data
@@ -20,8 +16,8 @@ namespace Hotel.Data
             this.dbContext = dbContext;
             this.dbSet = dbSet;
         }
-        #endregion 
-        #region GET      
+        #endregion CTOR
+        #region GET
         public async Task<TEntity> Get(Guid id)
         {
             return await dbSet
@@ -35,7 +31,7 @@ namespace Hotel.Data
             return await result.ToListAsync();
         }
 
-        #endregion
+        #endregion GET
         #region GETALL
         public async Task<List<TEntity>> GetAll()
         {
@@ -48,21 +44,20 @@ namespace Hotel.Data
             List<TEntity> entities = dbSet.AsNoTracking().ToList();
             return entities.FindAll(predicate);
         }
-        #endregion
+        #endregion GETALL
         #region ADD
         public async Task Add(TEntity item)
         {
             await dbSet.AddAsync(item);
             await dbContext.SaveChangesAsync();
         }
-        #endregion
+        #endregion ADD
         #region UPDATE
 
         public async Task Update(TEntity item)
         {
             dbSet.Update(item);
             await dbContext.SaveChangesAsync();
-
         }
         public async Task Update<TProperty>(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, Guid id)
         {
@@ -70,7 +65,7 @@ namespace Hotel.Data
                 .Where(c => c.Id == id)
                 .ExecuteUpdateAsync(setPropertyCalls);
         }
-        #endregion
+        #endregion UPDATE
         #region DELETE
         public async Task Delete(Guid id)
         {
@@ -78,7 +73,6 @@ namespace Hotel.Data
                 .Where(c => c.Id == id)
                 .ExecuteDeleteAsync();
         }
-        #endregion
+        #endregion DELETE
     }
 }
- 

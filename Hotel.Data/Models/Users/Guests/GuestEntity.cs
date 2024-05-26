@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hotel.Data.Models.Users.Common;
 
-namespace Hotel.Data.Models
+namespace Hotel.Data.Models.Users.Guests
 {
     public class GuestEntity : UserEntity
     {
         public List<BookingEntity> Bookings { get; set; } = [];
-       
     }
 }

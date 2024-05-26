@@ -18,6 +18,6 @@ namespace Hotel.API.GraphQL.Extensions
             }
             descriptor.Name(name);
             return descriptor;
-        }      
+        }
     }
 }

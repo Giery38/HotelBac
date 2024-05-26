@@ -1,24 +1,30 @@
 ﻿using Hotel.Core.Models.Common;
-using Hotel.Core.Models.Hotel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hotel.Core.Models.Users.Guests;
 
-namespace Hotel.Core.Models
+namespace Hotel.Core.Models.Hotel
 {
     public class RoomModel : Model
     {
         public int Number { get; set; } = 0;
         public decimal Price { get; private set; } = 0;
-        public int Area { get; private set; } = 0;
-        // view сюда
-        public RoomTypeModel RoomType { get; private set; } //чекни хз
+        public double Area { get; private set; } = 0;
+        public int Rating { get; private set; } = 0;
+        public RoomViewModel View { get; private set; }
+        public RoomTypeModel RoomType { get; private set; }
         public int Capacity { get; private set; } = 0;
-        public HotelModel Hotel { get; private set; }
+        public HotelModel? Hotel { get; private set; }
         public List<BookingModel> Bookings { get; set; } = [];
-
+        public RoomModel(Guid id, int number, decimal price, double area, int rating, RoomViewModel view,RoomTypeModel roomType, int capacity, HotelModel? hotel, List<BookingModel> bookings) : base(id)
+        {
+            Number = number;
+            Price = price;
+            Area = area;
+            Rating = rating;
+            View = view;
+            RoomType = roomType;
+            Capacity = capacity;
+            Hotel = hotel;
+            Bookings = bookings;
+        }
     }
 }

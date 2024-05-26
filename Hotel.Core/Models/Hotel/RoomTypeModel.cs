@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Hotel.Core.Models.Hotel
 {
-    public class RoomTypeModel : Model
+    public class RoomTypeModel : TypeModel
     {
-        public string Value { get; private set; } = string.Empty;
-        public List<RoomModel> Rooms { get; private set; } = [];
-       
+        public List<RoomModel> Rooms { get; set; } = [];
+        public RoomTypeModel(Guid id, string name, List<RoomModel> rooms) : base(id, name)
+        {
+            Rooms = rooms;
+        }
     }
 }

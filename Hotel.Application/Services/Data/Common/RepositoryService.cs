@@ -2,15 +2,8 @@
 using Hotel.Core.Models.Common;
 using Hotel.Data;
 using Hotel.Data.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Z.Linq;
 
 namespace Hotel.Application.Services.Data.Common
@@ -29,14 +22,13 @@ namespace Hotel.Application.Services.Data.Common
         {
             TEntity model = await repository.Get(id);
             return model.ToModel() as TModel;
-
         }
         public async Task<List<TModel>> Get(Expression<Func<TEntity, object>>[] includeProperties)
         {
             List<TEntity> entities = await repository.Get(includeProperties);
             return (List<TModel>)await entities.ConvertAll(item => item.ToModel()).CastAsync<TModel>();
         }
-        #endregion
+        #endregion GET
         #region GETALL
         public async Task<List<TModel>> GetAll()
         {
@@ -48,13 +40,13 @@ namespace Hotel.Application.Services.Data.Common
             List<TEntity> entities = await repository.GetAll(predicate);
             return (List<TModel>)await entities.ConvertAll(item => item.ToModel()).CastAsync<TModel>();
         }
-        #endregion
+        #endregion GETALL
         #region ADD
         public async Task Add(TModel item)
         {
             await repository.Add(item.ToEntity() as TEntity);
         }
-        #endregion
+        #endregion ADD
         #region UPDATE
         public async Task Update(TModel item)
         {
@@ -69,7 +61,7 @@ namespace Hotel.Application.Services.Data.Common
         {
             await repository.Delete(id);
         }
-        #endregion
-        #endregion
+        #endregion DELETE
+        #endregion UPDATE
     }
 }
