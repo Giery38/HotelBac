@@ -18,5 +18,21 @@ namespace Hotel.Core.Models.Hotel
             Hotels = hotels;
             Bookings = bookings;
         }
+        public ServiceModel(Guid id, string name, decimal price, ServiceTypeModel serviceType, bool setId) : base(id)
+        {
+            if (setId == true)
+            {
+                serviceType.AddService(this);
+            }
+            Name = name;
+            Price = price;
+            ServiceType = serviceType;
+            Hotels = new List<HotelModel>();
+            Bookings = new List<BookingModel>();
+        }
+        public void AddHotel(HotelModel hotel)
+        {
+            Hotels.Add(hotel);
+        }
     }
 }

@@ -36,5 +36,19 @@ namespace Hotel.Core.Models.Hotel
             Rooms = rooms;
             Services = services;
         }
+        public HotelModel(Guid id, string name, string location, int rating, int stars, List<RoomModel> rooms, List<ServiceModel> services, bool setId) : base(id)
+        {
+            if (setId == true)
+            {
+                rooms.ForEach(i => i.SetHotel(this));
+                services.ForEach(i => i.AddHotel(this));
+            }
+            Name = name;
+            Location = location;
+            Rating = rating;
+            Stars = stars;
+            Rooms = rooms;
+            Services = services;
+        }
     }
 }

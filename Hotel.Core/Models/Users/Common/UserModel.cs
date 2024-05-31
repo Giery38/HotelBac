@@ -17,5 +17,17 @@ namespace Hotel.Core.Models.Users.Common
             Rating = rating;
             Feedbacks = feedbacks;
         }
+        protected UserModel(Guid id, string name, DateOnly birthDate, GenderModel gender, int rating, List<UserFeedbackModel> feedbacks, bool setId) : base(id)
+        {
+            if (setId == true)
+            {
+                gender.AddUser(this);
+            }
+            Name = name;
+            BirthDate = birthDate;
+            Gender = gender;
+            Rating = rating;
+            Feedbacks = feedbacks;
+        }
     }
 }

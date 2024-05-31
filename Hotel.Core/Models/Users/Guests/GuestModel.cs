@@ -8,6 +8,10 @@ namespace Hotel.Core.Models.Users.Guests
         public List<BookingModel> Bookings { get; private set; } = [];
         public GuestModel(Guid id, string name, DateOnly birthDate, GenderModel gender, int rating, List<UserFeedbackModel> feedbacks, List<BookingModel> bookings) : base(id, name, birthDate, gender, rating, feedbacks)
         {
+            Bookings = bookings;           
+        }
+        public GuestModel(Guid id, string name, DateOnly birthDate, GenderModel gender, int rating, List<UserFeedbackModel> feedbacks, List<BookingModel> bookings, bool setId) : base(id, name, birthDate, gender, rating, feedbacks, setId)
+        {
             Bookings = bookings;
         }
     }

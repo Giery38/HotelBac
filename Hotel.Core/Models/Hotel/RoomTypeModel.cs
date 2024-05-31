@@ -14,5 +14,13 @@ namespace Hotel.Core.Models.Hotel
         {
             Rooms = rooms;
         }
+        public RoomTypeModel(Guid id, string name) : base(id, name)
+        {
+            Rooms = new List<RoomModel>();
+        }
+        public void AddRoom(RoomModel room)
+        {
+            Rooms.Add(room);
+        }
     }
 }

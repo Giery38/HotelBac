@@ -14,5 +14,13 @@ namespace Hotel.Core.Models.Users.Staff
         {
             Staff = staff;
         }
+        public PositionTypeModel(Guid id, string name) : base(id, name)
+        {
+            Staff = new List<StaffModel>();
+        }
+        public void AddStaff(StaffModel staff)
+        {
+            Staff.Add(staff);
+        }
     }
 }

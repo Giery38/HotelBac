@@ -15,8 +15,6 @@ namespace Hotel.Data.Configurations.Users
         {
             builder.HasOne(c => c.User)
                 .WithMany(c => c.Feedbacks);
-            builder.HasOne(c => c.FeedbackType)
-                .WithMany(c => c.Feedbacks);
         }
     }
 }

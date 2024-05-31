@@ -14,7 +14,7 @@ namespace Hotel.Data
     {
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
-         
+    
         }
         #region HOTEL
         public DbSet<HotelEntity> Hotels { get; set; }
@@ -27,7 +27,6 @@ namespace Hotel.Data
         #region USERS
         public DbSet<GenderEntity> Genders { get; set; }
         public DbSet<UserFeedbackEntity> Feedbacks { get; set; }
-        public DbSet<UserFeedbackTypeEntity> FeedbackTypes { get; set; }
         public DbSet<GuestEntity> Guests { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<StaffEntity> Staff { get; set; }
@@ -63,7 +62,6 @@ namespace Hotel.Data
             modelBuilder.ApplyConfiguration(new PositionTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffConfiguration());
             modelBuilder.ApplyConfiguration(new UserFeedbackConfiguration());
-            modelBuilder.ApplyConfiguration(new UserFeedbackTypeConfiguration());
             #endregion
         }
     }

@@ -9,10 +9,6 @@ namespace Hotel.Data.Models.Users.Common
 
         [ForeignKey(nameof(UserId))]
         public UserEntity? User { get; set; }
-
-        public Guid FeedbackTypeId { get; set; }
-
-        [ForeignKey(nameof(FeedbackTypeId))]
-        public UserFeedbackTypeEntity? FeedbackType { get; set; }
+        public string UserFeedbackType { get; set; } = string.Empty;
     }
 }

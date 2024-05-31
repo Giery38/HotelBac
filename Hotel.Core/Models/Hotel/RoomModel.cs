@@ -12,7 +12,7 @@ namespace Hotel.Core.Models.Hotel
         public RoomViewModel View { get; private set; }
         public RoomTypeModel RoomType { get; private set; }
         public int Capacity { get; private set; } = 0;
-        public HotelModel? Hotel { get; private set; }
+        public HotelModel Hotel { get; private set; }
         public List<BookingModel> Bookings { get; set; } = [];
         public RoomModel(Guid id, int number, decimal price, double area, int rating, RoomViewModel view,RoomTypeModel roomType, int capacity, HotelModel? hotel, List<BookingModel> bookings) : base(id)
         {
@@ -25,6 +25,19 @@ namespace Hotel.Core.Models.Hotel
             Capacity = capacity;
             Hotel = hotel;
             Bookings = bookings;
+        }
+        public RoomModel(Guid id, int number, decimal price, double area, int rating, int capacity) : base(id)
+        {
+            Number = number;
+            Price = price;
+            Area = area;
+            Rating = rating;
+            Capacity = capacity;
+            Bookings = new List<BookingModel>();
+        }
+        public void SetHotel(HotelModel hotel)
+        {
+            Hotel = hotel;
         }
     }
 }

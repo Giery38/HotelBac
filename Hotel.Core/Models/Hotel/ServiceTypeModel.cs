@@ -9,5 +9,13 @@ namespace Hotel.Core.Models.Hotel
         {
             Services = services;
         }
+        public ServiceTypeModel(Guid id, string name) : base(id, name)
+        {
+            Services = new List<ServiceModel>();
+        }
+        public void AddService(ServiceModel service)
+        {
+            Services.Add(service);
+        }
     }
 }

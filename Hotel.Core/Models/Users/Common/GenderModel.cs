@@ -16,5 +16,14 @@ namespace Hotel.Core.Models.Users.Common
             Gender = gender;
             Users = users;
         }
+        public GenderModel(Guid id, Genders gender) : base(id)
+        {
+            Gender = gender;
+            Users = new List<UserModel>();
+        }
+        public void AddUser(UserModel user)
+        {
+            Users.Add(user);
+        }
     }
 }

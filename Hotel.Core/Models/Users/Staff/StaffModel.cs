@@ -9,5 +9,13 @@ namespace Hotel.Core.Models.Users.Staff
         {
             PositionType = positionType;
         }
+        public StaffModel(Guid id, string name, DateOnly birthDate, GenderModel gender, int rating, List<UserFeedbackModel> feedbacks, PositionTypeModel positionType, bool setId) : base(id, name, birthDate, gender, rating, feedbacks, setId)
+        {
+            if (setId == true)
+            {
+                positionType.AddStaff(this);
+            }
+            PositionType = positionType;
+        }
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hotel.Data.Migrations.Postgres
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240524172105_initial")]
+    [Migration("20240526192116_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -261,34 +261,18 @@ namespace Hotel.Data.Migrations.Postgres
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("FeedbackTypeId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("UserFeedbackType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeedbackTypeId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("Hotel.Data.Models.Users.Common.UserFeedbackTypeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FeedbackTypes");
                 });
 
             modelBuilder.Entity("Hotel.Data.Models.Users.Guests.BookingEntity", b =>
@@ -458,19 +442,11 @@ namespace Hotel.Data.Migrations.Postgres
 
             modelBuilder.Entity("Hotel.Data.Models.Users.Common.UserFeedbackEntity", b =>
                 {
-                    b.HasOne("Hotel.Data.Models.Users.Common.UserFeedbackTypeEntity", "FeedbackType")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("FeedbackTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Hotel.Data.Models.Users.Common.UserEntity", "User")
                         .WithMany("Feedbacks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("FeedbackType");
 
                     b.Navigation("User");
                 });
@@ -527,11 +503,6 @@ namespace Hotel.Data.Migrations.Postgres
                 });
 
             modelBuilder.Entity("Hotel.Data.Models.Users.Common.UserEntity", b =>
-                {
-                    b.Navigation("Feedbacks");
-                });
-
-            modelBuilder.Entity("Hotel.Data.Models.Users.Common.UserFeedbackTypeEntity", b =>
                 {
                     b.Navigation("Feedbacks");
                 });

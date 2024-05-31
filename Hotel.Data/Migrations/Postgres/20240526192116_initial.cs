@@ -26,18 +26,6 @@ namespace Hotel.Data.Migrations.Postgres
                 });
 
             migrationBuilder.CreateTable(
-                name: "FeedbackTypes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedbackTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Genders",
                 columns: table => new
                 {
@@ -228,17 +216,11 @@ namespace Hotel.Data.Migrations.Postgres
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FeedbackTypeId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserFeedbackType = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Feedbacks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Feedbacks_FeedbackTypes_FeedbackTypeId",
-                        column: x => x.FeedbackTypeId,
-                        principalTable: "FeedbackTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Feedbacks_UserEntity_UserId",
                         column: x => x.UserId,
@@ -335,11 +317,6 @@ namespace Hotel.Data.Migrations.Postgres
                 column: "ServicesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedbacks_FeedbackTypeId",
-                table: "Feedbacks",
-                column: "FeedbackTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_UserId",
                 table: "Feedbacks",
                 column: "UserId");
@@ -403,9 +380,6 @@ namespace Hotel.Data.Migrations.Postgres
 
             migrationBuilder.DropTable(
                 name: "Bookings");
-
-            migrationBuilder.DropTable(
-                name: "FeedbackTypes");
 
             migrationBuilder.DropTable(
                 name: "UserEntity");
