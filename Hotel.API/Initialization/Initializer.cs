@@ -494,7 +494,7 @@ namespace Hotel.API.Initialization
             rooms.ForEach(i => i.HotelId = hotel.Id);
 
             services.ForEach(i => i.Hotels.Add(hotel));
-
+            var tt = hotel.ToModel();
             hotelDbContext.Hotels.Add(hotel);
             hotelDbContext.Rooms.AddRange(rooms);
             hotelDbContext.RoomTypes.AddRange(roomTypeModels);
@@ -523,7 +523,7 @@ namespace Hotel.API.Initialization
             List<GenderEntity> genderEntities = new List<GenderModel>() { genderModel1, genderModel2, genderModel3 }.ConvertAll(i => i.ToEntity());
             hotelDbContext.Genders.AddRange(genderEntities);
 
-            hotelDbContext.SaveChanges();
+           // hotelDbContext.SaveChanges();
         }   
     }
 }
