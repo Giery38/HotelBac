@@ -11,13 +11,13 @@ using Hotel.Data.Models.Users.Staff;
 
 namespace Hotel.Application.Converters
 {
-    public static class EntityConverter // передовать выше стоящие объекты вниз по ииерархии
+    public static class EntityConverter // передавать вышестоящие объекты вниз по иерархии
     {
         #region ENTITY_TO_MODEL
 
         public static Model ToModel(this Entity entity)
         {
-            switch (entity)
+            switch (entity) 
             {
                 case HotelEntity:
                     HotelEntity hotelEntity = entity as HotelEntity;
@@ -186,8 +186,18 @@ namespace Hotel.Application.Converters
         {
             return new RoomTypeModel(entity.Id, entity.Name, entity.Rooms.ConvertAll(i => i.ToModel()));
         }
+        private static RoomTypeModel ToModel(this RoomTypeEntity entity, Model skipModel)
+        {
+            return new RoomTypeModel(entity.Id, entity.Name, entity.Rooms.ConvertAll(i => i.ToModel()));
+        }
 
         public static ServiceModel ToModel(this ServiceEntity entity)
+        {
+            return new ServiceModel(entity.Id, entity.Name, entity.Price,
+                entity.ServiceType.ToModel(), entity.Hotels.ConvertAll(i => i.ToModel()), entity.Bookings.ConvertAll(i => i.ToModel()));
+        }
+
+        private static ServiceModel ToModel(this ServiceEntity entity, Model skipModel)
         {
             return new ServiceModel(entity.Id, entity.Name, entity.Price,
                 entity.ServiceType.ToModel(), entity.Hotels.ConvertAll(i => i.ToModel()), entity.Bookings.ConvertAll(i => i.ToModel()));
@@ -198,10 +208,21 @@ namespace Hotel.Application.Converters
             return new ServiceTypeModel(entity.Id, entity.Name, entity.Services.ConvertAll(i => i.ToModel()));
         }
 
+        private static ServiceTypeModel ToModel(this ServiceTypeEntity entity, Model skipModel)
+        {
+            return new ServiceTypeModel(entity.Id, entity.Name, entity.Services.ConvertAll(i => i.ToModel()));
+        }
+
         public static RoomViewModel ToModel(this RoomViewEntity entity)
         {
             return new RoomViewModel(entity.Id, entity.Name, entity.Rooms.ConvertAll(i => i.ToModel()));
         }
+
+        public static RoomViewModel ToModel(this RoomViewEntity entity, Model skipModel)
+        {
+            return new RoomViewModel(entity.Id, entity.Name, entity.Rooms.ConvertAll(i => i.ToModel()));
+        }
+        // так типа сделал?
 
         #endregion HOTEL
 
@@ -484,7 +505,7 @@ namespace Hotel.Application.Converters
                 Id = model.Id,
                 Area = model.Area,
                 Rating = model.Rating,
-                View = null,
+                View = new List<ViewEntity>(), // что тебе не нравится??? тут на RoomViewEntity тож ругается, добавить using не предлагает
                 ViewId = model.View.Id,
                 Bookings = model.Bookings.ConvertAll(i => i.ToEntity()),
                 Number = model.Number,
@@ -495,12 +516,25 @@ namespace Hotel.Application.Converters
                 RoomType = model.RoomType.ToEntity(),
                 RoomTypeId = model.RoomType.Id
             };
-            CheckSkipEntity(result.View, model.View, skipEntity);
+            CheckSkipEntity(result.View, model.View, skipEntity); // я ваще не врубаюсь нормально тут всё или херня
 
             return result;
         }
 
         public static RoomTypeEntity ToEntity(this RoomTypeModel model)
+        {
+           
+            return new RoomTypeEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
+            };
+            // а тут чек не нужен тип получается
+        }
+       
+
+        private static RoomTypeEntity ToEntity(this RoomTypeModel model, Entity skipEntity) 
         {
             return new RoomTypeEntity()
             {
@@ -523,6 +557,21 @@ namespace Hotel.Application.Converters
             };
         }
 
+
+        private static ServiceEntity ToEntity(this ServiceModel model, Entity skipEntity)
+        {
+            return new ServiceEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Price = model.Price,
+                ServiceType = model.ServiceType.ToEntity(),
+                ServiceTypeId = model.ServiceType.Id,
+                Hotels = model.Hotels.ConvertAll(i => i.ToEntity())
+            };
+        }
+
+
         public static ServiceTypeEntity ToEntity(this ServiceTypeModel model)
         {
             return new ServiceTypeEntity()
@@ -533,7 +582,27 @@ namespace Hotel.Application.Converters
             };
         }
 
+        private static ServiceTypeEntity ToEntity(this ServiceTypeModel model, Entity skipEntity)
+        {
+            return new ServiceTypeEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Services = model.Services.ConvertAll(i => i.ToEntity())
+            };
+        }
+
         public static RoomViewEntity ToEntity(this RoomViewModel model)
+        {
+            return new RoomViewEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Rooms = model.Rooms.ConvertAll(i => i.ToEntity())
+            };
+        }
+
+        private static RoomViewEntity ToEntity(this RoomViewModel model, Entity skipEntity)
         {
             return new RoomViewEntity()
             {
