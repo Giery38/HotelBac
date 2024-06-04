@@ -16,6 +16,10 @@ namespace Hotel.Data
         {
     
         }
+        public HotelDbContext()
+        {
+
+        }
         #region HOTEL
         public DbSet<HotelEntity> Hotels { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }

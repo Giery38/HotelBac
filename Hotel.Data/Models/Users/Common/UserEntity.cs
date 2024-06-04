@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hotel.Data.Models.Users.Common
 {
-    public abstract class UserEntity : Entity
+    public class UserEntity : Entity
     {
         public string Name { get; set; } = string.Empty;
         public string BirthDate { get; set; } = string.Empty;

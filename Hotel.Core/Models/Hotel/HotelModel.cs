@@ -7,7 +7,7 @@ namespace Hotel.Core.Models.Hotel
     {
         public string Name { get; private set; } = string.Empty;
         public string Location { get; private set; } = string.Empty;
-        public int Rating { get; private set; } = 0;
+        public int Rating { get; set; } = 0;
 
         private int stars;
         public int Stars
@@ -16,7 +16,7 @@ namespace Hotel.Core.Models.Hotel
             {
                 return stars;
             }
-            private set
+            set
             {
                 if (value > 5 || value < 0)
                 {
@@ -49,6 +49,11 @@ namespace Hotel.Core.Models.Hotel
             Stars = stars;
             Rooms = rooms;
             Services = services;
+        }
+
+        public void AddService(ServiceModel service)
+        {
+            Services.Add(service);
         }
     }
 }

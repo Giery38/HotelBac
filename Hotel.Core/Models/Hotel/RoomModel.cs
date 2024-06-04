@@ -39,5 +39,13 @@ namespace Hotel.Core.Models.Hotel
         {
             Hotel = hotel;
         }
+        public void SetView(RoomViewModel view)
+        {
+            View = view;
+        }
+        public void SetRoomType(RoomTypeModel roomType)
+        {
+            RoomType = roomType;
+        }
     }
 }

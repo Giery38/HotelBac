@@ -24,7 +24,7 @@ namespace Hotel.Data
                 .AsNoTracking()
                 .FirstOrDefaultAsync(item => item.Id == id);
         }
-        public async Task<List<TEntity>> Get(Expression<Func<TEntity, object>>[] includeProperties) //GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company); https://metanit.com/sharp/entityframework/3.13.php
+        public async Task<List<TEntity>> Get(params Expression<Func<TEntity, object>>[] includeProperties) //GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company); https://metanit.com/sharp/entityframework/3.13.php
         {
             IQueryable<TEntity> query = dbSet.AsNoTracking();
             IQueryable<TEntity> result = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));

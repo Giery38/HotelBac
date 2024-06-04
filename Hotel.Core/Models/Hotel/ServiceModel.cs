@@ -34,5 +34,9 @@ namespace Hotel.Core.Models.Hotel
         {
             Hotels.Add(hotel);
         }
+        public void SetServiceType(ServiceTypeModel serviceType)
+        {
+            ServiceType = serviceType;
+        }
     }
 }

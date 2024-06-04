@@ -1,6 +1,4 @@
-﻿using Hotel.Core.Models.Hotel;
-using Hotel.Core.Models.Users.Guests;
-
+﻿
 namespace Hotel.API.GraphQL.Models.Hotel
 {
     public class BookingQL : EntityQL

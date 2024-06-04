@@ -1,53 +1,43 @@
 ﻿using Hotel.API.GraphQL.Models;
 using Hotel.API.GraphQL.Models.Hotel;
-using Hotel.Application.Services.Data.Common;
-using Hotel.Core.Models.Common;
-using Hotel.Core.Models.Users.Guests;
+using Hotel.Data;
 using Hotel.Data.Models;
+using Hotel.Data.Models.Users.Common;
 using Hotel.Data.Models.Users.Guests;
 using System.ComponentModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Hotel.API.GraphQL.Queries.Data.Common
 {
-    public class QueryData<TEntity, TModel, TEntityQL> 
+    public class QueryData<TEntity> 
         where TEntity : Entity
-        where TModel : Model
-        where TEntityQL : EntityQL
     {
-        private readonly IRepositoryServiceAsync<TEntity, TModel> repository;
+        private readonly IRepositoryAsync<TEntity> repository;
 
-        public QueryData([Service] IRepositoryServiceAsync<TEntity, TModel> repository)
+        public QueryData([Service] IRepositoryAsync<TEntity> repository)
         {
             this.repository = repository;
         }
 
         [UseFiltering]
         [UseSorting]
-        public async Task<List<TEntityQL>> Get()
+        public async Task<List<TEntity>> Get(Predicate<TEntity> predicate)
         {
-            var tt = await repository.GetAll();
-            return new List<TEntityQL>();
-            //return await repository.GetAll();
-        }   
-        public async Task<List<Guid>> GetId()
-        {
-            return new List<Guid>();
+            return await repository.GetAll();
         }
-        public string Add(TEntityQL item)
+        public string Add(TEntity item)
         {
-            //var tt = EntityConverter.ToModel(item);
-            return  "s";
+            return "s";
             //await repository.Add()
         }
     }
-    public class Test<TEntity, TModel, TEntityQL> : ObjectType<QueryData<TEntity, TModel, TEntityQL>>
+    public class Test<TEntity> : ObjectType<QueryData<TEntity>>
         where TEntity : Entity
-        where TModel : Model
-        where TEntityQL : EntityQL 
     {
-        protected override void Configure(IObjectTypeDescriptor<QueryData<TEntity, TModel, TEntityQL>> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<QueryData<TEntity>> descriptor)
         {
-            
+          
         }
     }
+    
 }
