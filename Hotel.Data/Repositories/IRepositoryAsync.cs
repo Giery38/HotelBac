@@ -7,7 +7,7 @@ namespace Hotel.Data
     public interface IRepositoryAsync<TEntity> where TEntity : Entity
     {
         Task Add(TEntity item);
-
+        Task Add(IEnumerable<TEntity> item);
         Task Delete(Guid id);
 
         Task<List<TEntity>> Get(Expression<Func<TEntity, object>>[] includeProperties);

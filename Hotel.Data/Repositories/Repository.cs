@@ -51,6 +51,11 @@ namespace Hotel.Data
             await dbSet.AddAsync(item);
             await dbContext.SaveChangesAsync();
         }
+        public async Task Add(IEnumerable<TEntity> item)
+        {
+            await dbSet.AddRangeAsync(item);
+            await dbContext.SaveChangesAsync();
+        }
         #endregion ADD
         #region UPDATE
 
