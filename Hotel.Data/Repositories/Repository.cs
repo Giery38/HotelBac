@@ -39,10 +39,10 @@ namespace Hotel.Data
                 .AsNoTracking()
                 .ToListAsync();
         }
-        public async Task<List<TEntity>> GetAll(Predicate<TEntity> predicate)
+        public async Task<List<TEntity>> GetAll(Func<TEntity, bool> predicate)
         {
             List<TEntity> entities = dbSet.AsNoTracking().ToList();
-            return entities.FindAll(predicate);
+            return await entities.WhereAsync(predicate).ToList();
         }
         #endregion GETALL
         #region ADD

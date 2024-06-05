@@ -16,7 +16,7 @@ namespace Hotel.Data
 
         Task<List<TEntity>> GetAll();
 
-        Task<List<TEntity>> GetAll(Predicate<TEntity> predicate);
+        Task<List<TEntity>> GetAll(Func<TEntity, bool> predicate);
 
         Task Update(TEntity item);
 
