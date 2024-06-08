@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hotel.Data.Migrations.Postgres
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240526192116_initial")]
+    [Migration("20240607145033_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -261,7 +261,7 @@ namespace Hotel.Data.Migrations.Postgres
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserFeedbackType")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 

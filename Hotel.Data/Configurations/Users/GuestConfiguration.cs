@@ -10,6 +10,9 @@ namespace Hotel.Data.Configurations.Users
         {
             builder.HasMany(c => c.Bookings)
                 .WithMany(c => c.Guests);
+            builder.HasMany(c => c.Feedbacks)
+                .WithOne(c => c.Guest);
+               
         }
     }
 }

@@ -8,18 +8,17 @@ namespace Hotel.Data
     {
         Task Add(TEntity item);
         Task Add(IEnumerable<TEntity> item);
-        Task Delete(Guid id);
-
-        Task<List<TEntity>> Get(Expression<Func<TEntity, object>>[] includeProperties);
+        Task Delete(Guid id);        
 
         Task<TEntity> Get(Guid id);
 
         Task<List<TEntity>> GetAll();
 
         Task<List<TEntity>> GetAll(Func<TEntity, bool> predicate);
+        Task<List<TEntity>> GetAll(Expression<Func<TEntity, object>>[] includeProperties);
 
         Task Update(TEntity item);
 
-        Task Update<TProperty>(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, Guid id);
+        Task Update(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, Guid id);
     }
 }

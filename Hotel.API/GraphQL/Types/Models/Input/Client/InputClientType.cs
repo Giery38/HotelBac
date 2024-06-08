@@ -1,7 +1,13 @@
-﻿using Hotel.API.GraphQL.Types.Models.Input.Common;
+﻿using HotChocolate.Configuration;
+using HotChocolate.Types.Descriptors;
+using HotChocolate.Types.Relay;
+using Hotel.API.GraphQL.Types.Models.Input.Common;
 using Hotel.Data.Models;
+using Hotel.Data.Models.Users.Guests;
+using System;
+using System.Linq.Expressions;
 
-namespace Hotel.API.GraphQL.Types.Models.Input
+namespace Hotel.API.GraphQL.Types.Models.Input.Client
 {
     public class InputClientType<TEntity> : BaseInputObjectType<TEntity>
        where TEntity : Entity
@@ -11,5 +17,5 @@ namespace Hotel.API.GraphQL.Types.Models.Input
             descriptor.Field(f => f.Id).Ignore();
             base.Configure(descriptor);
         }
-    }
+    }    
 }

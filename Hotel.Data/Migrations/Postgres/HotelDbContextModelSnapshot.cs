@@ -258,7 +258,7 @@ namespace Hotel.Data.Migrations.Postgres
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserFeedbackType")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 

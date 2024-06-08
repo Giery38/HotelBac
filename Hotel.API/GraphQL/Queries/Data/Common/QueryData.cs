@@ -6,30 +6,14 @@ using System.ComponentModel;
 using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Hotel.API.GraphQL.Queries.Data
+namespace Hotel.API.GraphQL.Queries.Data.Common
 {
-    public partial class QueryData
-    {
-        /*
-        [UseFiltering]
-        [UseSorting]
-        public async Task<List<TEntity>> Get([Service] IRepositoryAsync<TEntity> repository)
+    
+    public class QueryData
+    {       
+        public string Test(string item)
         {
-            return await repository.GetAll();
+            return item;
         }
-        
-        public async Task<bool> Add(TEntity item)
-        {
-            try
-            {
-                await repository.Add(item);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        */
     }
 }

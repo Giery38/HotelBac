@@ -1,4 +1,4 @@
-﻿using Hotel.Data.Models.Users.Common;
+﻿using Hotel.Data.Models.Users.Guests;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace Hotel.Data.Configurations.Users
 {
-    public class UserFeedbackConfiguration : Configuration<UserFeedbackEntity>
+    public class FeedbackConfiguration : Configuration<FeedbackEntity>
     {
-        public override void Configure(EntityTypeBuilder<UserFeedbackEntity> builder)
+        public override void Configure(EntityTypeBuilder<FeedbackEntity> builder)
         {
-            builder.HasOne(c => c.User)
+            builder.HasOne(c => c.Guest)
+                .WithMany(c => c.Feedbacks);
+            builder.HasOne(c => c.Staff)
                 .WithMany(c => c.Feedbacks);
         }
     }

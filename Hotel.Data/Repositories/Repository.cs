@@ -24,17 +24,10 @@ namespace Hotel.Data
                 .AsNoTracking()
                 .FirstOrDefaultAsync(item => item.Id == id);
         }
-        public async Task<List<TEntity>> Get(params Expression<Func<TEntity, object>>[] includeProperties) //GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company); https://metanit.com/sharp/entityframework/3.13.php
-        {
-            IQueryable<TEntity> query = dbSet.AsNoTracking();
-            IQueryable<TEntity> result = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-            return await result.ToListAsync();
-        }
-
         #endregion GET
         #region GETALL
         public async Task<List<TEntity>> GetAll()
-        {
+        {            
             return await dbSet
                 .AsNoTracking()
                 .ToListAsync();
@@ -43,6 +36,12 @@ namespace Hotel.Data
         {
             List<TEntity> entities = dbSet.AsNoTracking().ToList();
             return await entities.WhereAsync(predicate).ToList();
+        }
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, object>>[] includeProperties) //GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company); https://metanit.com/sharp/entityframework/3.13.php
+        {
+            IQueryable<TEntity> query = dbSet.AsNoTracking();
+            IQueryable<TEntity> result = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            return await result.ToListAsync();
         }
         #endregion GETALL
         #region ADD
@@ -64,7 +63,7 @@ namespace Hotel.Data
             dbSet.Update(item);
             await dbContext.SaveChangesAsync();
         }
-        public async Task Update<TProperty>(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, Guid id)
+        public async Task Update(Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setPropertyCalls, Guid id)
         {
             await dbSet
                 .Where(c => c.Id == id)

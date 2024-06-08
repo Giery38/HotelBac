@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Hotel.Data.Models.Users.Guests;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hotel.Data.Models.Users.Common
@@ -11,7 +12,6 @@ namespace Hotel.Data.Models.Users.Common
 
         [ForeignKey(nameof(GenderId))]
         public GenderEntity? Gender { get; set; }
-        public int Rating { get; set; } = 0;
-        public List<UserFeedbackEntity> Feedbacks { get; set; } = [];
+        public int Rating { get; set; } = 0;        
     }
 }

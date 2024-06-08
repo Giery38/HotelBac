@@ -1,4 +1,6 @@
 ﻿using HotChocolate.Execution.Configuration;
+using HotChocolate.Utilities;
+using Hotel.API.GraphQL.Queries.Data;
 using Hotel.API.GraphQL.Types.Query.Data;
 using Hotel.Data;
 using Hotel.Data.Models;
@@ -30,7 +32,8 @@ namespace Hotel.API.Initialization
                 options.UseNpgsql(configuration.GetConnectionString(nameof(HotelDbContext)));
             });
             HotelDbContext hotelDbContext = innerServices.BuildServiceProvider().GetService<HotelDbContext>();
-            CreateHotels(hotelDbContext);
+            //CreateHotels(hotelDbContext);
+            innerServices.AddCors();
             AddGraphQLConfigure(configuration);
             AddRepositories();        
             return innerbBuilder;
@@ -42,20 +45,35 @@ namespace Hotel.API.Initialization
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.MapControllers();
-            app.MapGraphQL();
+            app.MapGraphQL("/client/graphql", schemaName: "clientSchema");
+            app.MapGraphQL("/admin/graphql", schemaName: "adminSchema");
+            app.UseCors(b =>
+            {
+                b.WithOrigins("http://localhost:5174/").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+            });
+
             app.Run();
             return app;
         }
 
         private static void AddGraphQLConfigure(ConfigurationManager configuration)
         {
-            IRequestExecutorBuilder requestExecutorBuilder = innerServices.AddGraphQLServer();
-            requestExecutorBuilder.AddQueryType<ClientQueryDataType>().AddFiltering().AddProjections().AddSorting();            IRequestExecutorBuilder requestExecutorBuilder2 = innerServices.AddGraphQLServer("admin");
-            
+            IRequestExecutorBuilder requestExecutorBuilderClient = innerServices.AddGraphQLServer("clientSchema");
+            requestExecutorBuilderClient.AddQueryType<ClientQueryDataType>()
+                .AddTypeExtension<BookingQuery>().AddTypeExtension<FeedbackQuery>()
+                .AddTypeExtension<GuestEntity>().AddTypeExtension<HotelQuery>()
+                .AddFiltering().AddProjections().AddSorting();
+            IRequestExecutorBuilder requestExecutorBuilderAdmin = innerServices.AddGraphQLServer("adminSchema");
+            requestExecutorBuilderAdmin.AddQueryType<AdminQueryDataType>()
+                .AddTypeExtension<BookingQuery>().AddTypeExtension<FeedbackQuery>()
+                .AddTypeExtension<GuestEntity>().AddTypeExtension<HotelQuery>()
+                .AddFiltering().AddProjections().AddSorting();
+
         }       
         private static void AddRepositories()
         {
             HotelDbContext hotelDbContext = innerServices.BuildServiceProvider().GetService<HotelDbContext>();
+            innerServices.AddRepository(hotelDbContext, hotelDbContext.Hotels);
             innerServices.AddRepository(hotelDbContext, hotelDbContext.Bookings);
             innerServices.AddRepository(hotelDbContext, hotelDbContext.Guests);
             innerServices.AddRepository(hotelDbContext, hotelDbContext.Services);
@@ -73,6 +91,7 @@ namespace Hotel.API.Initialization
         }
         public static void CreateHotels(HotelDbContext hotelDbContext)
         {
+            hotelDbContext.Database.EnsureDeleted();
             hotelDbContext.Database.EnsureCreated();
             RoomTypeEntity Economy = new RoomTypeEntity()
             {
@@ -470,29 +489,26 @@ namespace Hotel.API.Initialization
             hotelDbContext.Services.AddRange(services);
             hotelDbContext.ServiceTypes.AddRange(serviceTypeModels);
             hotelDbContext.RoomViews.AddRange(roomViewModels);
-            
-            /*
-            PositionTypeModel Director = new PositionTypeModel(Guid.NewGuid(), "Директор");
-            PositionTypeModel ViceDirector = new PositionTypeModel(Guid.NewGuid(), "Заместитель Директора");
-            PositionTypeModel Receptionist = new PositionTypeModel(Guid.NewGuid(), "Администратор стойки регистрации");
-            PositionTypeModel Maid = new PositionTypeModel(Guid.NewGuid(), "Горничная");
-            PositionTypeModel LobbyBoy = new PositionTypeModel(Guid.NewGuid(), "Коридорный");
-            PositionTypeModel SeniorСoncierge = new PositionTypeModel(Guid.NewGuid(), "Старший консьерж");
-            PositionTypeModel Waiter = new PositionTypeModel(Guid.NewGuid(), "Официант");
-            PositionTypeModel Bartender = new PositionTypeModel(Guid.NewGuid(), "Бармен");
-            PositionTypeModel SecurityGuard = new PositionTypeModel(Guid.NewGuid(), "Охранник");
 
-            List<PositionTypeModel> positionTypeModels = new List<PositionTypeModel>() { Director, ViceDirector, Receptionist, Maid, LobbyBoy, SeniorСoncierge, Waiter, Bartender, SecurityGuard };
-           // hotelDbContext.PositionTypes.AddRange(positionTypeModels.ConvertAll(i => i.ToEntity()));
+            PositionTypeEntity Director = new PositionTypeEntity() {Id = Guid.NewGuid(), Name = "Директор"};
+            PositionTypeEntity ViceDirector = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Заместитель Директора" };
+            PositionTypeEntity Receptionist = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Администратор стойки регистрации" };
+            PositionTypeEntity Maid = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Горничная" };
+            PositionTypeEntity LobbyBoy = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Коридорный" };
+            PositionTypeEntity SeniorСoncierge = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Старший консьерж" };
+            PositionTypeEntity Waiter = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Официант" };
+            PositionTypeEntity Bartender = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Бармен" };
+            PositionTypeEntity SecurityGuard = new PositionTypeEntity() { Id = Guid.NewGuid(), Name = "Охранник" };
+            List<PositionTypeEntity> positionTypeEntities = new List<PositionTypeEntity>() { Director, ViceDirector, Receptionist, Maid, LobbyBoy, SeniorСoncierge, Waiter, Bartender, SecurityGuard };
+            hotelDbContext.PositionTypes.AddRange(positionTypeEntities);
 
-            GenderModel genderModel1 = new GenderModel(Guid.NewGuid(), Genders.none);
-            GenderModel genderModel2 = new GenderModel(Guid.NewGuid(), Genders.Mele);
-            GenderModel genderModel3 = new GenderModel(Guid.NewGuid(), Genders.Female);
+            GenderEntity genderEntity1 = new GenderEntity() {Id = Guid.NewGuid(), Name = "none"};
+            GenderEntity genderEntity2 = new GenderEntity() { Id = Guid.NewGuid(), Name = "Male" };
+            GenderEntity genderEntity3 = new GenderEntity() { Id = Guid.NewGuid(), Name = "Female" };
 
-            List<GenderEntity> genderEntities = new List<GenderModel>() { genderModel1, genderModel2, genderModel3 }.ConvertAll(i => i.ToEntity());
-            hotelDbContext.Genders.AddRange(genderEntities);
-            */
-           // hotelDbContext.SaveChanges();
+            List<GenderEntity> genderEntities = new List<GenderEntity>() { genderEntity1, genderEntity2, genderEntity3 };
+            hotelDbContext.Genders.AddRange(genderEntities);  
+            hotelDbContext.SaveChanges();
         }   
     }
 }
